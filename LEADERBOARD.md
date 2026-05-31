@@ -1,15 +1,7 @@
 # 🏆 Leaderboard — Competencia RL (DQN)
 
-Entorno: `MountainCar-v0` · Ranking por **IQM** · Actualizado: 2026-05-31 23:37 UTC
-
-### 🏁 Referencia — óptimo a batir (fuera de ranking)
+Entorno: `MountainCar-v0` · Ranking por **IQM** · Actualizado: 2026-05-31 23:47 UTC
 
 | # | Equipo | IQM | IC 95% | Media | Desvío | Min | Max | Episodios |
 |---|--------|-----|--------|-------|--------|-----|-----|-----------|
-| 🏁 | profe | -102.00 | [-103.571, -91.0] | -97.90 | 7.75 | -104.0 | -84.0 | 10 |
-
-### Ranking alumnos
-
-| # | Equipo | IQM | IC 95% | Media | Desvío | Min | Max | Episodios |
-|---|--------|-----|--------|-------|--------|-----|-----|-----------|
-| — | _sin submissions todavía_ | | | | | | | |
+| 1 | profe | -101.86 | [-103.0, -90.333] | -97.40 | 7.55 | -103.0 | -84.0 | 10 |
