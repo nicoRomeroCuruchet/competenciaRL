@@ -1,0 +1,31 @@
+# =====================================================================
+# Configuración de la competencia. ÚNICA fuente de verdad.
+# Si cambiás el entorno, cambialo SOLO acá.
+# =====================================================================
+
+# Entorno de Gymnasium PINNEADO con versión exacta.
+# MountainCar-v0: clásico para DQN. NO necesita box2d.
+env_id: "MountainCar-v0"
+
+# Dimensiones del contrato (deben coincidir con env_id).
+# MountainCar-v0: observación (2,) [posición, velocidad] float32, 3 acciones.
+obs_dim: 2
+n_actions: 3
+
+# ---- Contrato ONNX que deben cumplir los alumnos ----
+input_name: "observation"   # entrada [batch, obs_dim], float32
+output_name: "q_values"     # salida  [batch, n_actions], float32
+onnx_opset: 17              # opset estándar; rechazamos custom ops
+
+# ---- Parámetros de evaluación ----
+# OJO: en MountainCar la recompensa es -1 por paso (máx -200 si nunca llega).
+# El retorno es negativo: cuanto MÁS CERCA de 0, mejor. El ranking por IQM
+# descendente ya ordena bien (menos negativo = mejor puesto).
+max_steps_per_episode: 200
+bootstrap_resamples: 5000
+rank_metric: "iqm"
+
+# Equipos que se muestran como LINEA DE REFERENCIA (fuera del ranking de alumnos).
+# Se evaluan igual, con las mismas seeds, pero el board los lista aparte arriba
+# como "el optimo a batir". Aca va la solucion exacta del profe (DP).
+reference_teams: ["profe"]

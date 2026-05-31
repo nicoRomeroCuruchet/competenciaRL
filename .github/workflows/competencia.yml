@@ -1,0 +1,104 @@
+name: Competencia RL
+
+on:
+  pull_request:
+    paths: ["submissions/**"]
+  push:
+    branches: [main]
+    paths: ["submissions/**"]
+  workflow_dispatch:        # para correr el board manualmente el día D
+
+permissions:
+  contents: write           # para commitear results/ y LEADERBOARD.md
+  pull-requests: write      # para comentar el score en el PR
+
+jobs:
+  # ----------------------------------------------------------------
+  # En PR: valida (código = descalificado) y muestra el score de preview.
+  # OJO: los Secrets NO están disponibles en PRs desde forks. Hacé que los
+  # alumnos trabajen en ramas del MISMO repo (GitHub Classroom / colaboradores).
+  # ----------------------------------------------------------------
+  evaluar-pr:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install numpy onnx onnxruntime pyyaml gymnasium
+
+      - name: Detectar archivos cambiados y el equipo
+        id: diff
+        run: |
+          FILES=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          echo "Archivos en el PR:"; echo "$FILES"
+          echo "changed=$(echo $FILES | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
+          TEAM=$(echo "$FILES" | grep -oP 'submissions/\K[^/]+' | head -1)
+          echo "team=$TEAM" >> "$GITHUB_OUTPUT"
+          echo "onnx=submissions/$TEAM/policy.onnx" >> "$GITHUB_OUTPUT"
+
+      - name: Validar (solo pesos)
+        run: |
+          python harness/validate_submission.py \
+            --changed-files "${{ steps.diff.outputs.changed }}" \
+            --onnx "${{ steps.diff.outputs.onnx }}"
+
+      - name: Evaluar con seeds ocultas
+        env:
+          EVAL_SEEDS: ${{ secrets.EVAL_SEEDS }}   # set OCULTO de ranking
+        run: |
+          python harness/evaluate.py \
+            --onnx "${{ steps.diff.outputs.onnx }}" \
+            --team "${{ steps.diff.outputs.team }}" \
+            --out /tmp/result.json
+          echo "SCORE<<EOF" >> "$GITHUB_ENV"
+          cat /tmp/result.json >> "$GITHUB_ENV"
+          echo "EOF" >> "$GITHUB_ENV"
+
+      - name: Comentar el score en el PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body \
+          "✅ Submission válida — score de preview (seeds ocultas):
+          \`\`\`json
+          $SCORE
+          \`\`\`
+          El board oficial se actualiza al mergear a \`main\`."
+
+  # ----------------------------------------------------------------
+  # En push a main (post-merge): re-evalúa, guarda result y regenera board.
+  # ----------------------------------------------------------------
+  actualizar-board:
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install numpy onnx onnxruntime pyyaml gymnasium
+
+      - name: Evaluar submissions nuevas/cambiadas
+        env:
+          EVAL_SEEDS: ${{ secrets.EVAL_SEEDS }}
+        run: |
+          for d in submissions/*/; do
+            team=$(basename "$d")
+            [ "$team" = "_ejemplo" ] && continue
+            [ -f "$d/policy.onnx" ] || continue
+            python harness/validate_submission.py --onnx "$d/policy.onnx" || continue
+            python harness/evaluate.py --onnx "$d/policy.onnx" --team "$team"
+          done
+
+      - name: Regenerar leaderboard
+        run: python harness/make_leaderboard.py
+
+      - name: Commit del board
+        run: |
+          git config user.name  "rl-bot"
+          git config user.email "rl-bot@users.noreply.github.com"
+          git add results/ LEADERBOARD.md
+          git diff --cached --quiet || git commit -m "Actualizar leaderboard [skip ci]"
+          git push
