@@ -1,1 +1,1 @@
-{"team": "profe", "members": ["Profe"], "reference": true, "notes": "Solucion optima por Policy Iteration (DP exacto en CUDA). Linea de referencia: se evalua con las mismas seeds pero NO entra al ranking de alumnos."}
+{"team": "profe", "members": ["Profe"], "notes": "Solucion por Policy Iteration (DP exacto en CUDA). Compite como un equipo mas en el ranking."}

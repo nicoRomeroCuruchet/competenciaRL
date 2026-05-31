@@ -24,8 +24,3 @@ onnx_opset: 17              # opset estándar; rechazamos custom ops
 max_steps_per_episode: 200
 bootstrap_resamples: 5000
 rank_metric: "iqm"
-
-# Equipos que se muestran como LINEA DE REFERENCIA (fuera del ranking de alumnos).
-# Se evaluan igual, con las mismas seeds, pero el board los lista aparte arriba
-# como "el optimo a batir". Aca va la solucion exacta del profe (DP).
-reference_teams: ["profe"]

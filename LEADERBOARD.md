@@ -1,6 +1,6 @@
 # 🏆 Leaderboard — Competencia RL (DQN)
 
-Entorno: `MountainCar-v0` · Ranking por **IQM** · Actualizado: 2026-05-31 23:22 UTC
+Entorno: `MountainCar-v0` · Ranking por **IQM** · Actualizado: 2026-05-31 23:37 UTC
 
 ### 🏁 Referencia — óptimo a batir (fuera de ranking)
 
