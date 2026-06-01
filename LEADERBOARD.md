@@ -1,8 +1,8 @@
 # 🏆 Leaderboard — Competencia RL (DQN)
 
-Entorno: `MountainCar-v0` · Ranking por **MEDIA** · Actualizado: 2026-06-01 17:21 UTC
+Entorno: `MountainCar-v0` · Ranking por **MEDIA** · Actualizado: 2026-06-01 17:52 UTC
 
 | # | Equipo | Media | Desvío | Min | Max | Episodios | IQM | Dif. al 1° |
 |---|--------|-------|--------|-----|-----|-----------|-----|-----------|
-| 1 | nromero | -99.07 | 5.88 | -104.0 | -87.0 | 30 | -100.29 | — |
-| 2 | anatissera | -99.37 | 6.09 | -106.0 | -87.0 | 30 | -100.73 | +0.30 |
+| 1 | anatissera | -97.61 | 7.48 | -107.0 | -83.0 | 100 | -100.64 | — |
+| 2 | nromero | -98.24 | 8.12 | -118.0 | -83.0 | 100 | -100.57 | +0.63 |
