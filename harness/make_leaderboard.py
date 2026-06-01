@@ -14,14 +14,17 @@ CFG = yaml.safe_load((ROOT / "config.yaml").read_text())
 METRIC = CFG.get("rank_metric", "mean")
 METRIC_LABEL = {"mean": "MEDIA", "iqm": "IQM"}.get(METRIC, METRIC.upper())
 
-HEADER = "| # | Equipo | Media | Desvío | Min | Max | Episodios | IQM |"
-SEP = "|---|--------|-------|--------|-----|-----|-----------|-----|"
+HEADER = "| # | Equipo | Media | Desvío | Min | Max | Episodios | IQM | Dif. al 1° |"
+SEP = "|---|--------|-------|--------|-----|-----|-----------|-----|-----------|"
 
 
-def row(rank: int, r: dict) -> str:
+def row(rank: int, r: dict, leader_mean: float) -> str:
+    # Estilo F1: cuánto hay que sumarle a la Media para alcanzar al 1°.
+    gap = leader_mean - r["mean"]
+    gap_str = "—" if rank == 1 else f"+{gap:.2f}"
     return (
         f"| {rank} | {r['team']} | {r['mean']:.2f} | {r['std']:.2f} | "
-        f"{r['min']:.1f} | {r['max']:.1f} | {r['n_episodes']} | {r['iqm']:.2f} |"
+        f"{r['min']:.1f} | {r['max']:.1f} | {r['n_episodes']} | {r['iqm']:.2f} | {gap_str} |"
     )
 
 
@@ -45,9 +48,10 @@ def main():
         HEADER, SEP,
     ]
     if results:
-        lines += [row(i, r) for i, r in enumerate(results, 1)]
+        leader_mean = results[0]["mean"]
+        lines += [row(i, r, leader_mean) for i, r in enumerate(results, 1)]
     else:
-        lines.append("| — | _sin submissions todavía_ | | | | | | | |")
+        lines.append("| — | _sin submissions todavía_ | | | | | | | | |")
 
     (ROOT / "LEADERBOARD.md").write_text("\n".join(lines) + "\n")
     print(f"Leaderboard regenerado con {len(results)} equipo(s).")
