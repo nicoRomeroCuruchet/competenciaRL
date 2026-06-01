@@ -53,20 +53,20 @@ jobs:
             --onnx "${{ steps.diff.outputs.onnx }}" \
             --team "${{ steps.diff.outputs.team }}" \
             --out /tmp/result.json
-          echo "SCORE<<EOF" >> "$GITHUB_ENV"
-          cat /tmp/result.json >> "$GITHUB_ENV"
-          echo "EOF" >> "$GITHUB_ENV"
 
       - name: Comentar el score en el PR
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body \
-          "✅ Submission válida — score de preview (seeds ocultas):
-          \`\`\`json
-          $SCORE
-          \`\`\`
-          El board oficial se actualiza al mergear a \`main\`."
+          {
+            echo "✅ Submission válida — score de preview (seeds ocultas):"
+            echo '```json'
+            cat /tmp/result.json
+            echo ''
+            echo '```'
+            echo "El board oficial se actualiza al mergear a \`main\`."
+          } > /tmp/comment.md
+          gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/comment.md
 
   # ----------------------------------------------------------------
   # En push a main (post-merge): re-evalúa, guarda result y regenera board.
