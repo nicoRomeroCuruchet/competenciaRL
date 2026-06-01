@@ -14,16 +14,13 @@ CFG = yaml.safe_load((ROOT / "config.yaml").read_text())
 METRIC = CFG.get("rank_metric", "mean")
 METRIC_LABEL = {"mean": "MEDIA", "iqm": "IQM"}.get(METRIC, METRIC.upper())
 
-HEADER = "| # | Equipo | Media | IC 95% | Desvío | Min | Max | Episodios | IQM |"
-SEP = "|---|--------|-------|--------|--------|-----|-----|-----------|-----|"
+HEADER = "| # | Equipo | Media | Desvío | Min | Max | Episodios | IQM |"
+SEP = "|---|--------|-------|--------|-----|-----|-----------|-----|"
 
 
 def row(rank: int, r: dict) -> str:
-    # IC 95% de la métrica de ranking (bootstrap), si está disponible.
-    ci = r.get(f"{METRIC}_ci95", ["—", "—"])
     return (
-        f"| {rank} | {r['team']} | {r['mean']:.2f} | "
-        f"[{ci[0]}, {ci[1]}] | {r['std']:.2f} | "
+        f"| {rank} | {r['team']} | {r['mean']:.2f} | {r['std']:.2f} | "
         f"{r['min']:.1f} | {r['max']:.1f} | {r['n_episodes']} | {r['iqm']:.2f} |"
     )
 
