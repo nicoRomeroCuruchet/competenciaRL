@@ -1,7 +1,7 @@
 # 🏁 Competencia RL — DQN sobre `MountainCar-v0`
 
 <p align="center">
-  <img src="gifs/mountain_car.gif" alt="Agente DQN escalando la montaña en MountainCar-v0" width="420">
+  <img src="gifs/mountain_car.gif" alt="Agente DQN escalando la montaña en MountainCar-v0" width="470">
 </p>
 
 > **Damas y caballeros, arranca la temporada.** Esto no es la Fórmula 1, pero el
