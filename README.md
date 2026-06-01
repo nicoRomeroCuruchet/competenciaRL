@@ -1,4 +1,19 @@
-# Competencia RL — DQN sobre `MountainCar-v0`
+# 🏁 Competencia RL — DQN sobre `MountainCar-v0`
+
+<p align="center">
+  <img src="gifs/mountain_car.gif" alt="Agente DQN escalando la montaña en MountainCar-v0" width="420">
+</p>
+
+> **Damas y caballeros, arranca la temporada.** Esto no es la Fórmula 1, pero el
+> espíritu es el mismo: cada escudería —su equipo— lleva su propio monoplaza a la
+> pista. Solo que acá el monoplaza es una **red Q entrenada** y el circuito es la
+> ladera de `MountainCar-v0`. El motor sin potencia no alcanza para subir de frente:
+> hay que tomar impulso, leer el momento justo y dejar que la política haga el resto.
+>
+> No gana quien tiene el auto más rápido, sino quien **llega a la cima en menos pasos**
+> y de forma **consistente vuelta tras vuelta** (seed tras seed). Los tiempos se miden
+> contra seeds que nadie vio, el cronómetro no miente y el **podio se arma solo** en el
+> [leaderboard](LEADERBOARD.md). 🏆
 
 Entrenan su DQN localmente y suben **solo los pesos** como un archivo ONNX.
 El board se actualiza solo a medida que mergeamos submissions, y el día de la
