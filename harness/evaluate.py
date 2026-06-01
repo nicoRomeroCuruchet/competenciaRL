@@ -5,7 +5,8 @@ Evalúa un policy.onnx sobre un conjunto de seeds.
 - Política: accion = argmax(Q(obs))  (greedy, determinista).
 - Una corrida (episodio) por seed -> con política y entorno deterministas,
   más seeds = más muestras. La varianza entre seeds es la señal real en RL.
-- Métrica robusta: IQM (media del 50% central), con IC 95% por bootstrap.
+- Métrica de ranking: media de los retornos, con IC 95% por bootstrap.
+  (También se reporta el IQM —media del 50% central— como dato informativo.)
 - IMPORTANTE: nunca imprime los valores de las seeds (son secretas).
 
 Las seeds se pasan por la variable de entorno EVAL_SEEDS (lista separada por
@@ -89,10 +90,12 @@ def main():
 
     score_iqm = iqm(returns)
     ci_iqm = bootstrap_ci(returns, iqm, CFG["bootstrap_resamples"])
+    ci_mean = bootstrap_ci(returns, np.mean, CFG["bootstrap_resamples"])
     result = {
         "team": args.team,
         "n_episodes": len(returns),
         "mean": float(returns.mean()),
+        "mean_ci95": [round(ci_mean[0], 3), round(ci_mean[1], 3)],
         "std": float(returns.std(ddof=1)) if len(returns) > 1 else 0.0,
         "iqm": score_iqm,
         "iqm_ci95": [round(ci_iqm[0], 3), round(ci_iqm[1], 3)],

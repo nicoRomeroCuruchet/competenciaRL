@@ -37,9 +37,9 @@ En `submissions/_ejemplo/export_example.py` tenés cómo exportar desde PyTorch
 - Una corrida por seed; con política y entorno deterministas, **más seeds = más muestras**.
 - En MountainCar la recompensa es **-1 por paso** (máximo -200 si nunca llega a la meta).
   Por eso los retornos son **negativos**: cuanto **más cerca de 0**, mejor.
-  Una policy sin entrenar marca -200 fijo. El ranking por IQM descendente ordena bien.
-- Métrica: **IQM** (interquartile mean) con intervalo de confianza al 95% por bootstrap.
-  La media sola es engañosa en RL por la varianza; el IQM es robusto a outliers.
+  Una policy sin entrenar marca -200 fijo. El ranking por la media descendente ordena bien.
+- Métrica de ranking: **media** de los retornos, con intervalo de confianza al 95% por bootstrap.
+  Se reporta también el **IQM** (interquartile mean, robusto a outliers) como dato informativo.
 - Hay dos conjuntos de seeds: las **públicas** (`seeds/public_seeds.txt`) para que
   prueben, y un set **oculto** para el ranking real. El día D se usa un tercer set
   de holdout que nadie vio.
