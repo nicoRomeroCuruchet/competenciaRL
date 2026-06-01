@@ -1,34 +1,37 @@
 #!/usr/bin/env python3
 """
-export_reference_policy.py — convierte la solucion EXACTA del profe (Policy
-Iteration por DP en CUDA, guardada como .npz) en un policy.onnx que cumple el
-contrato de la competencia, para que figure como LINEA DE REFERENCIA ("el optimo
-a batir") en el leaderboard.
+export_reference_policy.py — convierte la solucion del profe (Policy Iteration por
+DP en CUDA, guardada como .npz) en un policy.onnx que cumple el contrato de la
+competencia y que REPRODUCE EXACTAMENTE su evaluacion baricentrica
+(utils/barycentric.get_optimal_action + round(a+1)).
 
 NO es una submission de alumno: vive fuera de submissions/ y por eso el validador
-("solo pesos") nunca lo ve. Se corre UNA vez, offline, en la maquina del profe.
-Solo necesita numpy + onnx (ni torch, ni numba, ni CUDA).
+("solo pesos") nunca lo ve. Se corre UNA vez, offline. Solo numpy + onnx
+(+ onnxruntime para el self-check). Ni torch, ni numba, ni CUDA.
 
-Que hace
---------
-1. Lee el .npz del DP: value_function V, policy, grilla, bounds, action_space.
-2. Reconstruye una Q-table [n_states, 3] por lookahead de 1 paso con la dinamica
-   ANALITICA exacta de MountainCar:
-       Q[s,a] = -1 + gamma * V_interp(step(s, a))      (= -1 si step cae en terminal)
-   donde V_interp es interpolacion baricentrica de V (la misma que usa el DP).
-   Asi argmax_a Q reproduce la politica optima y ademas da Q-values calibrados.
-3. Hornea esa Q-table como constante dentro de un grafo ONNX minimo cuyo unico
-   trabajo en inferencia es: obs -> celda de grilla mas cercana -> Gather -> q_values.
-   Solo operadores estandar (Sub, Mul, Round, Clip, Cast, ReduceSum, Gather), opset 17.
+Que hace el ONNX en inferencia (igual que get_optimal_action)
+-------------------------------------------------------------
+Para cada obs = [pos, vel]:
+  1. Interpolacion baricentrica sobre la celda de grilla que la contiene:
+       - base[d] = clip(floor((obs[d]-low[d])/step[d]), 0, n[d]-2)
+       - t[d]    = (obs[d]-low[d])/step[d] - base[d]            (en [0,1])
+       - para las 4 esquinas c: w_c = prod_d (t[d] si bit else 1-t[d]),
+                                 flat_c = sum_d (base[d]+bit_d)*stride[d]
+  2. accion continua  a = sum_c w_c * accion_de_la_policy(flat_c)   (en [-1,1])
+  3. indice discreto  k = clip(round(a+1), 0, 2)
+  4. q_values = one_hot(k)  ->  argmax(q_values) == k  (= action_to_gym del runner)
+
+Todo con operadores estandar de ONNX (Max/Min/Floor/Sub/Mul/Cast/Gather/Add/
+Round/Unsqueeze/Equal), opset 17.
 
 Uso
 ---
     python competenciaRL/reference/export_reference_policy.py \
         --npz runners/results/mountain_car_cuda_policy.npz \
-        --out competenciaRL/submissions/profe/policy.onnx \
-        --gamma 0.99
+        --out competenciaRL/submissions/profe/policy.onnx
 """
 import argparse
+from itertools import product
 from pathlib import Path
 
 import numpy as np
@@ -36,138 +39,137 @@ import onnx
 from onnx import TensorProto, helper, numpy_helper
 
 
-# ── Dinamica analitica exacta de MountainCar-v0 (igual al kernel CUDA del runner) ──
-def step_dynamics(pos, vel, force):
-    """Un paso de MountainCar, vectorizado. force in {-1, 0, 1}."""
-    vel = vel + force * 0.001 - 0.0025 * np.cos(3.0 * pos)
-    vel = np.clip(vel, -0.07, 0.07)
-    pos = pos + vel
-    pos = np.clip(pos, -1.2, 0.6)
-    # rebote pared izquierda: si toca el limite, velocidad a 0
-    vel = np.where(pos <= -1.2, 0.0, vel)
-    terminated = (pos >= 0.5) & (vel >= 0.0)
-    return pos.astype(np.float32), vel.astype(np.float32), terminated
+# ── Referencia en numpy (replica get_optimal_action + round) para el self-check ──
+def ref_actions(obs, pol_val, low, high, grid_shape, strides, corners):
+    p = np.clip(obs.astype(np.float64), low, high)
+    step = (high - low) / (grid_shape - 1)
+    cell = (p - low) / step
+    base = np.floor(cell).astype(np.int64)
+    base = np.clip(base, 0, grid_shape - 2)
+    t = cell - base
+    a = np.zeros(len(obs), dtype=np.float64)
+    for bits in corners:
+        w = np.ones(len(obs), dtype=np.float64)
+        flat = np.zeros(len(obs), dtype=np.int64)
+        for d, bit in enumerate(bits):
+            w *= t[:, d] if bit else (1.0 - t[:, d])
+            flat += (base[:, d] + bit) * strides[d]
+        a += w * pol_val[flat]
+    return np.clip(np.round(a + 1.0), 0, 2).astype(np.int64)
 
 
-# ── Interpolacion baricentrica de V (vectorizada, equivalente a utils/barycentric) ──
-def interp_value(points, V, low, high, grid_shape, strides, corner_bits):
-    """V interpolado en `points` [M,2] por baricentrica sobre la grilla regular."""
-    M = points.shape[0]
-    n_dims = points.shape[1]
-    step = (high - low) / (grid_shape - 1)              # [2]
-
-    p = np.clip(points, low, high)                       # [M,2]
-    cell = (p - low) / step                              # [M,2]
-    base = np.floor(cell).astype(np.int64)               # [M,2]
-    base = np.minimum(base, grid_shape - 2)
-    base = np.maximum(base, 0)
-    t = (p - (low + base * step)) / step                 # [M,2] en [0,1]
-
-    out = np.zeros(M, dtype=np.float64)
-    for c in range(corner_bits.shape[0]):                # 4 esquinas del hipercubo
-        bits = corner_bits[c]                            # [2] en {0,1}
-        w = np.ones(M, dtype=np.float64)
-        flat = np.zeros(M, dtype=np.int64)
-        for d in range(n_dims):
-            w *= t[:, d] if bits[d] else (1.0 - t[:, d])
-            flat += (base[:, d] + bits[d]) * strides[d]
-        out += w * V[flat]
-    return out
-
-
-def build_q_table(npz_path: Path, gamma: float):
+# ── Construccion del grafo ONNX (baricentrica exacta) ──────────────────────────
+def build_onnx(npz_path: Path, out_path: Path, opset: int = 17):
     d = np.load(npz_path, allow_pickle=True)
-    V = d["value_function"].astype(np.float64)           # [N]
-    policy = d["policy"].astype(np.int64)                # [N]
-    states = d["states_space"].astype(np.float32)        # [N,2]
-    low = d["bounds_low"].astype(np.float64)             # [2]
-    high = d["bounds_high"].astype(np.float64)           # [2]
-    grid_shape = d["grid_shape"].astype(np.int64)        # [2]
-    strides = d["strides"].astype(np.int64)              # [2]
-    corner_bits = d["corner_bits"].astype(np.int64)      # [4,2]
-    action_space = d["action_space"].astype(np.float32)  # [3] = [-1,0,1]
-    N = states.shape[0]
-    n_actions = action_space.shape[0]
+    policy = d["policy"].astype(np.int64)                  # [N] indice de accion por celda
+    action_space = d["action_space"].astype(np.float32)   # [3] = [-1,0,1]
+    low = d["bounds_low"].astype(np.float64)               # [2]
+    high = d["bounds_high"].astype(np.float64)             # [2]
+    grid_shape = d["grid_shape"].astype(np.int64)          # [2]
+    strides = d["strides"].astype(np.int64)                # [2]
 
-    # Sanity: el layout de la grilla coincide con la indexacion por strides.
-    # idx(states[k]) debe dar k para toda celda.
-    rec = np.round((states.astype(np.float64) - low) / ((high - low) / (grid_shape - 1)))
-    rec = np.clip(rec, 0, grid_shape - 1).astype(np.int64)
-    flat_rec = (rec * strides).sum(axis=1)
-    assert np.array_equal(flat_rec, np.arange(N)), \
-        "El mapeo obs->celda no coincide con states_space; revisar strides/bounds."
+    # Valor de accion (-1/0/1) por celda: un solo Gather en vez de policy + action_space.
+    pol_val = action_space[policy].astype(np.float32)      # [N]
+    inv_step = ((grid_shape - 1).astype(np.float32) / (high - low).astype(np.float32))
+    grid_minus2 = (grid_shape - 2).astype(np.float32)
+    low_f = low.astype(np.float32)
+    high_f = high.astype(np.float32)
+    s0, s1 = int(strides[0]), int(strides[1])
+    corners = list(product([0, 1], repeat=2))              # (0,0),(0,1),(1,0),(1,1)
 
-    # Q[s,a] = -1 + gamma * V_interp(step(s,a)),  o -1 si step es terminal.
-    Q = np.full((N, n_actions), -1.0, dtype=np.float64)
-    pos0, vel0 = states[:, 0], states[:, 1]
-    for a in range(n_actions):
-        force = float(action_space[a])
-        npos, nvel, term = step_dynamics(pos0.copy(), vel0.copy(), force)
-        nxt = np.column_stack([npos, nvel]).astype(np.float64)
-        Vn = interp_value(nxt, V, low, high, grid_shape, strides, corner_bits)
-        Q[:, a] = -1.0 + gamma * np.where(term, 0.0, Vn)
+    def c(name, arr):
+        return numpy_helper.from_array(np.asarray(arr), name)
 
-    agree = float((Q.argmax(axis=1) == policy).mean())
-    print(f"[sanity] argmax(Q) coincide con la policy del DP en {agree*100:.2f}% de las celdas")
-    if agree < 0.95:
-        print("[warn] coincidencia baja: revisar gamma/dinamica/interpolacion.")
-
-    meta = dict(low=low.astype(np.float32), high=high.astype(np.float32),
-                grid_shape=grid_shape.astype(np.int64),
-                strides=strides.astype(np.int64))
-    return Q.astype(np.float32), meta
-
-
-# ── Construccion del grafo ONNX: obs -> celda mas cercana -> Gather(Q) ──────────────
-def build_onnx(Q, meta, out_path: Path, opset: int = 17):
-    N, n_actions = Q.shape
-    low = meta["low"]
-    high = meta["high"]
-    grid_shape = meta["grid_shape"]            # [2] int64
-    strides = meta["strides"]                  # [2] int64
-    inv_step = ((grid_shape - 1).astype(np.float32) / (high - low)).astype(np.float32)
-    nbins_m1 = float(grid_shape[0] - 1)        # ambas dims = 200 -> 199; clip escalar sirve
-
-    def const(name, arr):
-        return numpy_helper.from_array(np.asarray(arr), name=name)
-
-    initializers = [
-        const("Qtable", Q),                                  # [N,3] float32
-        const("low", low),                                   # [2]
-        const("inv_step", inv_step),                         # [2]
-        const("strides", strides),                           # [2] int64
-        const("clip_min", np.array(0.0, dtype=np.float32)),
-        const("clip_max", np.array(nbins_m1, dtype=np.float32)),
-        const("sum_axis", np.array([1], dtype=np.int64)),
+    inits = [
+        c("pol_val", pol_val),
+        c("low", low_f), c("high", high_f),
+        c("inv_step", inv_step), c("grid_minus2", grid_minus2),
+        c("zero_f", np.array(0.0, np.float32)),
+        c("one_f", np.array(1.0, np.float32)),
+        c("two_f", np.array(2.0, np.float32)),
+        c("col0", np.array(0, np.int64)), c("col1", np.array(1, np.int64)),
+        c("stride0", np.array(s0, np.int64)), c("stride1", np.array(s1, np.int64)),
+        c("arange3", np.array([0.0, 1.0, 2.0], np.float32)),
+        c("ax1", np.array([1], np.int64)),
     ]
 
-    nodes = [
-        helper.make_node("Sub", ["observation", "low"], ["shifted"]),
-        helper.make_node("Mul", ["shifted", "inv_step"], ["scaled"]),
-        helper.make_node("Round", ["scaled"], ["rounded"]),
-        helper.make_node("Clip", ["rounded", "clip_min", "clip_max"], ["clipped"]),
-        helper.make_node("Cast", ["clipped"], ["idx"], to=TensorProto.INT64),
-        helper.make_node("Mul", ["idx", "strides"], ["weighted"]),
-        helper.make_node("ReduceSum", ["weighted", "sum_axis"], ["flat"], keepdims=0),
-        helper.make_node("Gather", ["Qtable", "flat"], ["q_values"], axis=0),
-    ]
+    n = []  # nodos
+    # 1) clip a los bounds (per-dim => Max/Min con broadcast, no Clip que pide escalares)
+    n += [helper.make_node("Max", ["observation", "low"], ["p_lo"]),
+          helper.make_node("Min", ["p_lo", "high"], ["p"])]
+    # 2) cell = (p - low) * inv_step ;  base = clip(floor(cell), 0, n-2) ;  t = cell - base
+    n += [helper.make_node("Sub", ["p", "low"], ["shift"]),
+          helper.make_node("Mul", ["shift", "inv_step"], ["cell"]),
+          helper.make_node("Floor", ["cell"], ["base_fl"]),
+          helper.make_node("Max", ["base_fl", "zero_f"], ["base_lo"]),
+          helper.make_node("Min", ["base_lo", "grid_minus2"], ["base_f"]),
+          helper.make_node("Sub", ["cell", "base_f"], ["t"]),
+          helper.make_node("Cast", ["base_f"], ["base_i"], to=TensorProto.INT64)]
+    # columnas
+    n += [helper.make_node("Gather", ["t", "col0"], ["t0"], axis=1),
+          helper.make_node("Gather", ["t", "col1"], ["t1"], axis=1),
+          helper.make_node("Sub", ["one_f", "t0"], ["mt0"]),   # 1 - t0
+          helper.make_node("Sub", ["one_f", "t1"], ["mt1"]),   # 1 - t1
+          helper.make_node("Gather", ["base_i", "col0"], ["b0"], axis=1),
+          helper.make_node("Gather", ["base_i", "col1"], ["b1"], axis=1),
+          helper.make_node("Mul", ["b0", "stride0"], ["b0s"]),
+          helper.make_node("Mul", ["b1", "stride1"], ["b1s"]),
+          helper.make_node("Add", ["b0s", "b1s"], ["base_flat"])]
 
-    inp = helper.make_tensor_value_info(
-        "observation", TensorProto.FLOAT, ["batch", 2])
-    out = helper.make_tensor_value_info(
-        "q_values", TensorProto.FLOAT, ["batch", n_actions])
+    # 3) 4 esquinas: w_c * pol_val(flat_c), acumulando en interp_a
+    term_names = []
+    for ci, (bit0, bit1) in enumerate(corners):
+        f0 = "t0" if bit0 else "mt0"
+        f1 = "t1" if bit1 else "mt1"
+        const_c = bit0 * s0 + bit1 * s1
+        inits.append(c(f"off{ci}", np.array(const_c, np.int64)))
+        n += [helper.make_node("Mul", [f0, f1], [f"w{ci}"]),
+              helper.make_node("Add", ["base_flat", f"off{ci}"], [f"flat{ci}"]),
+              helper.make_node("Gather", ["pol_val", f"flat{ci}"], [f"pv{ci}"], axis=0),
+              helper.make_node("Mul", [f"w{ci}", f"pv{ci}"], [f"term{ci}"])]
+        term_names.append(f"term{ci}")
+    n += [helper.make_node("Add", [term_names[0], term_names[1]], ["s01"]),
+          helper.make_node("Add", [term_names[2], term_names[3]], ["s23"]),
+          helper.make_node("Add", ["s01", "s23"], ["interp_a"])]
 
-    graph = helper.make_graph(nodes, "mountaincar_reference_policy",
-                              [inp], [out], initializers)
-    model = helper.make_model(
-        graph, opset_imports=[helper.make_operatorsetid("", opset)],
-        producer_name="export_reference_policy")
-    model.ir_version = 10  # compatible con onnxruntime / opset 17
+    # 4) k = clip(round(a+1), 0, 2) ;  q_values = one_hot(k)
+    n += [helper.make_node("Add", ["interp_a", "one_f"], ["a1"]),
+          helper.make_node("Round", ["a1"], ["k0"]),
+          helper.make_node("Max", ["k0", "zero_f"], ["k_lo"]),
+          helper.make_node("Min", ["k_lo", "two_f"], ["k"]),
+          helper.make_node("Unsqueeze", ["k", "ax1"], ["k_col"]),
+          helper.make_node("Equal", ["k_col", "arange3"], ["oh"]),
+          helper.make_node("Cast", ["oh"], ["q_values"], to=TensorProto.FLOAT)]
 
+    inp = helper.make_tensor_value_info("observation", TensorProto.FLOAT, ["batch", 2])
+    out = helper.make_tensor_value_info("q_values", TensorProto.FLOAT, ["batch", 3])
+    graph = helper.make_graph(n, "mountaincar_barycentric_policy", [inp], [out], inits)
+    model = helper.make_model(graph,
+                              opset_imports=[helper.make_operatorsetid("", opset)],
+                              producer_name="export_reference_policy")
+    model.ir_version = 10
     onnx.checker.check_model(model)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     onnx.save(model, str(out_path))
     print(f"[ok] ONNX guardado en {out_path}  ({out_path.stat().st_size/1024:.0f} KB)")
+
+    # ── self-check end-to-end: ONNX argmax vs referencia numpy de get_optimal_action ──
+    import onnxruntime as ort
+    rng = np.random.default_rng(0)
+    obs = np.column_stack([
+        rng.uniform(low[0], high[0], 20000),
+        rng.uniform(low[1], high[1], 20000),
+    ]).astype(np.float32)
+    sess = ort.InferenceSession(str(out_path), providers=["CPUExecutionProvider"])
+    q = sess.run(["q_values"], {"observation": obs})[0]
+    onnx_k = q.argmax(axis=1)
+    ref_k = ref_actions(obs, pol_val, low, high, grid_shape, strides, corners)
+    agree = float((onnx_k == ref_k).mean())
+    print(f"[self-check] argmax(ONNX) == get_optimal_action+round en {agree*100:.2f}% "
+          f"de 20k puntos aleatorios")
+    if agree < 1.0:
+        bad = int((onnx_k != ref_k).sum())
+        raise SystemExit(f"[ERROR] el ONNX NO replica la baricentrica ({bad} puntos difieren)")
 
 
 def main():
@@ -176,12 +178,9 @@ def main():
                    default=Path("runners/results/mountain_car_cuda_policy.npz"))
     p.add_argument("--out", type=Path,
                    default=Path("competenciaRL/submissions/profe/policy.onnx"))
-    p.add_argument("--gamma", type=float, default=0.99)
     p.add_argument("--opset", type=int, default=17)
     args = p.parse_args()
-
-    Q, meta = build_q_table(args.npz, args.gamma)
-    build_onnx(Q, meta, args.out, args.opset)
+    build_onnx(args.npz, args.out, args.opset)
 
 
 if __name__ == "__main__":
