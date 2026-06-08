@@ -21,10 +21,10 @@ SEP = "|---|--------|-------|--------|-----|-----|-----------|-----|-----------|
 def row(rank: int, r: dict, leader_mean: float) -> str:
     # Estilo F1: cuánto hay que sumarle a la Media para alcanzar al 1°.
     gap = leader_mean - r["mean"]
-    gap_str = "—" if rank == 1 else f"+{gap:.2f}"
+    gap_str = "—" if rank == 1 else f"+{gap:.3f}"
     return (
-        f"| {rank} | {r['team']} | {r['mean']:.2f} | {r['std']:.2f} | "
-        f"{r['min']:.1f} | {r['max']:.1f} | {r['n_episodes']} | {r['iqm']:.2f} | {gap_str} |"
+        f"| {rank} | {r['team']} | {r['mean']:.3f} | {r['std']:.2f} | "
+        f"{r['min']:.1f} | {r['max']:.1f} | {r['n_episodes']} | {r['iqm']:.3f} | {gap_str} |"
     )
 
 
