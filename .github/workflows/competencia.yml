@@ -36,16 +36,28 @@ jobs:
           echo "Archivos en el PR:"; echo "$FILES"
           echo "changed=$(echo $FILES | tr '\n' ' ')" >> "$GITHUB_OUTPUT"
           TEAM=$(echo "$FILES" | grep -oP 'submissions/\K[^/]+' | head -1)
-          echo "team=$TEAM" >> "$GITHUB_OUTPUT"
-          echo "onnx=submissions/$TEAM/policy.onnx" >> "$GITHUB_OUTPUT"
+          # Si el PR no toca ninguna submissions/<equipo>/policy.onnx (p.ej. solo
+          # cambia el board/results o docs), no hay nada que evaluar: marcamos
+          # has_team=false para SALTAR el preview en vez de reventar con
+          # 'submissions//policy.onnx'.
+          if [ -n "$TEAM" ] && [ -f "submissions/$TEAM/policy.onnx" ]; then
+            echo "has_team=true" >> "$GITHUB_OUTPUT"
+            echo "team=$TEAM" >> "$GITHUB_OUTPUT"
+            echo "onnx=submissions/$TEAM/policy.onnx" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_team=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::PR sin cambios en submissions/<equipo>/policy.onnx -> sin score de preview."
+          fi
 
       - name: Validar (solo pesos)
+        if: steps.diff.outputs.has_team == 'true'
         run: |
           python harness/validate_submission.py \
             --changed-files "${{ steps.diff.outputs.changed }}" \
             --onnx "${{ steps.diff.outputs.onnx }}"
 
       - name: Evaluar con seeds ocultas
+        if: steps.diff.outputs.has_team == 'true'
         env:
           EVAL_SEEDS: ${{ secrets.EVAL_SEEDS }}   # set OCULTO de ranking
         run: |
@@ -55,6 +67,7 @@ jobs:
             --out /tmp/result.json
 
       - name: Comentar el score en el PR
+        if: steps.diff.outputs.has_team == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -67,6 +80,14 @@ jobs:
             echo "El board oficial se actualiza al mergear a \`main\`."
           } > /tmp/comment.md
           gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/comment.md
+
+      - name: Avisar que no hay preview (PR sin submission)
+        if: steps.diff.outputs.has_team != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body \
+            "ℹ️ Este PR no modifica ninguna \`submissions/<equipo>/policy.onnx\`, así que no hay score de preview. El board oficial se actualiza al mergear a \`main\`."
 
   # ----------------------------------------------------------------
   # En push a main (post-merge): re-evalúa, guarda result y regenera board.
