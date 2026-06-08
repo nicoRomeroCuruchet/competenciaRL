@@ -3,3 +3,6 @@ __pycache__/
 .DS_Store
 /tmp/
 venv/
+
+# Copias locales de seeds (holdout / generadas) — NUNCA se commitean.
+seeds/*.local.txt
