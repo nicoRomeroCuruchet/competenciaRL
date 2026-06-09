@@ -57,12 +57,22 @@ def run_episode(sess, input_name, output_name, n_actions, seed: int) -> float:
 
 
 def iqm(x: np.ndarray) -> float:
-    """Interquartile mean: media de los valores entre el percentil 25 y 75."""
+    """Interquartile mean using pure NumPy index slicing."""
     if len(x) == 0:
         return float("nan")
-    lo, hi = np.percentile(x, 25), np.percentile(x, 75)
-    mid = x[(x >= lo) & (x <= hi)]
-    return float(mid.mean()) if len(mid) else float(np.median(x))
+
+    # Calculate how many elements represent 25% of the data
+    drop_count = len(x) // 4
+
+    # If the array is too small to drop elements, return the standard mean
+    if drop_count == 0:
+        return float(np.mean(x))
+
+    x_sorted = np.sort(x)
+    # Slice off the bottom 25% and top 25% by position
+    mid = x_sorted[drop_count:-drop_count]
+
+    return float(np.mean(mid))
 
 
 def bootstrap_ci(x: np.ndarray, stat, n_resamples: int, alpha=0.05):
