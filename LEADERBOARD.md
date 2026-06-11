@@ -1,6 +1,6 @@
 # 🏆 Leaderboard — Competencia RL (DQN)
 
-Entorno: `MountainCar-v0` · Ranking por **MEDIA** · Actualizado: 2026-06-09 15:14 UTC
+Entorno: `MountainCar-v0` · Ranking por **MEDIA** · Actualizado: 2026-06-11 00:20 UTC
 
 | # | Equipo | Media | Desvío | Min | Max | Episodios | IQM | Dif. al 1° |
 |---|--------|-------|--------|-----|-----|-----------|-----|-----------|
@@ -12,3 +12,4 @@ Entorno: `MountainCar-v0` · Ranking por **MEDIA** · Actualizado: 2026-06-09 15
 | 6 | lluquematerazzi | -98.792 | 8.17 | -110.0 | -83.0 | 1000 | -101.344 | +1.384 |
 | 7 | gabo | -98.929 | 7.67 | -138.0 | -84.0 | 1000 | -101.736 | +1.521 |
 | 8 | sb3zoo | -99.114 | 8.06 | -108.0 | -84.0 | 1000 | -101.784 | +1.706 |
+| 9 | mtahta | -121.708 | 26.46 | -154.0 | -85.0 | 1000 | -124.792 | +24.300 |
