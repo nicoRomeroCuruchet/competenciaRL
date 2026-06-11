@@ -1,0 +1,1 @@
+{"team": "idominguez", "members": ["idominguez"], "notes": "Dueling DQN (2-256-256, LeakyReLU, value+advantage heads) con normalizacion de entrada. Convertida de .pt a ONNX por el profe a pedido del equipo."}
