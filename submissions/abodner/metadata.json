@@ -1,0 +1,1 @@
+{"team": "abodner", "members": ["abodner"], "notes": "DQN MLP 2-128-64-3 (ReLU). Convertida de .pt a ONNX por el profe a pedido del equipo."}
