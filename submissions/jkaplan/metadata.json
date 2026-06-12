@@ -1,0 +1,1 @@
+{"team": "jkaplan", "members": ["jkaplan"], "notes": "Dueling DQN (shared 3-128-128 ReLU, value+advantage heads) con feature extra sin(3*pos) horneada en el grafo ONNX. Convertida de .pt a ONNX por el profe a pedido del equipo."}
