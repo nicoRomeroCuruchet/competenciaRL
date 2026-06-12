@@ -1,0 +1,1 @@
+{"team": "mvillegasleiva", "members": ["mvillegasleiva"], "notes": "DQN MLP 2-128-128-128-3 (ReLU) con normalizacion de entrada a [-1,1] horneada en el grafo ONNX. Convertida de .pt a ONNX por el profe a pedido del equipo."}
