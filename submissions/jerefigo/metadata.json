@@ -3,5 +3,6 @@
   "members": [
     "Jeremías Figueiredo Paschmann"
   ],
-  "notes": "test"
+  "method": "DQN",
+  "notes": "Learned DQN Q-network trained locally with a JAX reimplementation of the repo architecture: raw [position, velocity] -> 64 ReLU -> 64 ReLU -> 3 Q-values. Training used the surrogate reward shaping weights position=20, velocity=10, height=10, terminal=20; Xavier init; lr=0.001; eps_decay=0.0015; batch_size=32. Public validation mean: -99.433 over 30 seeds."
 }
