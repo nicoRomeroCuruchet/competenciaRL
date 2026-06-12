@@ -1,0 +1,1 @@
+{"team": "vlynch", "members": ["vlynch"], "notes": "Dueling DQN (feature 2-256-256 ELU, value_stream 256-128-1, advantage_stream 256-128-3) con normalizacion de entrada a [-1,1] horneada en el grafo ONNX. Convertida de .pt a ONNX por el profe a pedido del equipo."}
