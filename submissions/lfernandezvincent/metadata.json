@@ -1,0 +1,1 @@
+{"team": "lfernandezvincent", "members": ["lfernandezvincent"], "notes": "Dueling DQN (feature 2-128-128, value_stream 128-64-1, advantage_stream 128-64-3, LeakyReLU). Convertida de .pt a ONNX por el profe a pedido del equipo."}
