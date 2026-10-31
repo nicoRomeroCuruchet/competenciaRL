@@ -1,0 +1,1 @@
+{"team": "espero-no-ser-ultimo", "members": ["Tadeo Casiraghi"], "notes": "Rainbow DQN (dueling, double, prioritized replay, 3-step, C51, noisy nets) + domain randomization over the 5 circuits"}
