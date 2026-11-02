@@ -1,0 +1,7 @@
+{
+  "team": "McQueen-Kachow",
+  "members": [
+    "Joaquín Cadeiras"
+  ],
+  "notes": "DQN con normalización de observaciones y shaping de energía."
+}
