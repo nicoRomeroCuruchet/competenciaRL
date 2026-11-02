@@ -1,0 +1,7 @@
+{
+  "team": "LaMakina",
+  "members": [
+    "Santino Galliano"
+  ],
+  "notes": "DQN con dos capas ocultas de 64 neuronas. Entrenado en los cinco circuitos, con normalización de posición y velocidad."
+}
