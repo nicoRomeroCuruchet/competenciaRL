@@ -1,6 +1,6 @@
 # 🏆 Leaderboard — Campeonato RL (DQN)
 
-Entorno base: `MountainCar-v0` · 5 circuitos · Ranking por **MEDIA** en cada circuito · Actualizado: 2026-11-02 13:34 UTC
+Entorno base: `MountainCar-v0` · 5 circuitos · Ranking por **MEDIA** en cada circuito · Actualizado: 2026-11-02 17:10 UTC
 
 Puntos por circuito: 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 (del 1° al 10°). La misma policy corre en todos los circuitos. Detalle de cada uno en el README.
 
@@ -81,6 +81,7 @@ No suman ni ocupan posiciones. Las posiciones son las que tendría cada auto si 
 | Larpest-v1 | ginerJuanUdesa | 37 | 33° | 4° (12) | 42° | 40° | 1° (25) |
 | Larpest-v2 | ginerJuanUdesa | 37 | 39° | 4° (12) | 42° | 42° | 1° (25) |
 | Larper-v1 | ginerJuanUdesa | 37 | 39° | 4° (12) | 43° | 42° | 1° (25) |
+| Larpest-v7 | ginerJuanUdesa | 34 | 32° | 6° (8) | 6° (8) | 2° (18) | 39° |
 | Larpest-v5 | ginerJuanUdesa | 28 | 33° | 4° (12) | 10° (1) | 3° (15) | 39° |
 | Wachinator-v1 | ginerJuanUdesa | 25 | 39° | 19° | 43° | 43° | 1° (25) |
 | Larpest-v4 | ginerJuanUdesa | 25 | 32° | 4° (12) | 10° (1) | 4° (12) | 39° |
@@ -202,6 +203,7 @@ _MountainCar-v0 tal cual._
 | R | domabot3 | Sdomato | — | -100.713 | -104.222 | 0.0% | -106.0 | -86.0 | 1000 | +3.304 |
 | R | Wachinators-v3 | ginerJuanUdesa | — | -100.727 | -102.798 | 0.0% | -104.0 | -83.0 | 1000 | +3.318 |
 | R | Alan-Schadan-v2 | Alanschad | — | -100.745 | -103.642 | 0.0% | -105.0 | -83.0 | 1000 | +3.336 |
+| R | Larpest-v7 | ginerJuanUdesa | — | -101.144 | -103.536 | 0.0% | -104.0 | -83.0 | 1000 | +3.735 |
 | 32 | Larpest-v6 | ginerJuanUdesa | 0 | -101.191 | -103.554 | 0.0% | -104.0 | -83.0 | 1000 | +3.782 |
 | 33 | McQueen-Kachow | Joacocade | 0 | -101.280 | -103.874 | 0.0% | -113.0 | -83.0 | 1000 | +3.871 |
 | R | Larpest-v5 | ginerJuanUdesa | — | -101.291 | -103.582 | 0.0% | -105.0 | -83.0 | 1000 | +3.882 |
@@ -258,6 +260,7 @@ _Largan desde cualquier punto de la pista y con velocidad inicial._
 | R | salim | athinasalimm | — | -57.393 | -58.892 | 0.0% | -142.0 | -3.0 | 1000 | +0.306 |
 | R | SilverArrow | VANAFA | — | -57.394 | -58.948 | 0.0% | -143.0 | -3.0 | 1000 | +0.307 |
 | R | bravo-andres-r4 | Andresbravo9 | — | -57.399 | -58.968 | 0.0% | -146.0 | -3.0 | 1000 | +0.312 |
+| R | Larpest-v7 | ginerJuanUdesa | — | -57.403 | -58.884 | 0.0% | -142.0 | -3.0 | 1000 | +0.316 |
 | R | Revancha_de_Irineo_B | BungeSantiago | — | -57.407 | -59.032 | 0.0% | -122.0 | -3.0 | 1000 | +0.320 |
 | R | Wachinators-v2 | ginerJuanUdesa | — | -57.430 | -58.880 | 0.0% | -150.0 | -3.0 | 1000 | +0.343 |
 | R | Alan-Schadan-v3 | Alanschad | — | -57.463 | -59.186 | 0.0% | -121.0 | -3.0 | 1000 | +0.376 |
@@ -366,6 +369,7 @@ _Sensores con ruido gaussiano en posición y velocidad._
 | 4 | fium-V3 | tomasbenavidez | 12 | -101.088 | -102.022 | 0.0% | -186.0 | -83.0 | 1000 | +1.159 |
 | R | bravo-andres-r1 | Andresbravo9 | — | -101.111 | -103.244 | 0.0% | -162.0 | -83.0 | 1000 | +1.182 |
 | 5 | domabot2 | Sdomato | 10 | -101.321 | -103.686 | 0.0% | -178.0 | -83.0 | 1000 | +1.392 |
+| R | Larpest-v7 | ginerJuanUdesa | — | -101.340 | -103.608 | 0.0% | -171.0 | -83.0 | 1000 | +1.411 |
 | R | bravo-andres-r5 | Andresbravo9 | — | -101.357 | -103.246 | 0.0% | -162.0 | -83.0 | 1000 | +1.428 |
 | R | ivan-de-pineda-107 | RamaMusic | — | -101.429 | -103.294 | 0.0% | -188.0 | -83.0 | 1000 | +1.500 |
 | R | valentino-pettazi | ValenPettaz1 | — | -101.441 | -103.492 | 0.0% | -160.0 | -83.0 | 1000 | +1.512 |
@@ -459,6 +463,7 @@ _El motor rinde entre 8% y 12% menos._
 |---|------|-----------|----:|-------|-----|-----------:|-----|-----|-----------|-----------|
 | 1 | mborrell01-v5 | mborrell01 | 25 | -110.353 | -110.466 | 0.0% | -133.0 | -92.0 | 1000 | — |
 | 2 | Larpest-v6 | ginerJuanUdesa | 18 | -110.381 | -110.480 | 0.0% | -173.0 | -92.0 | 1000 | +0.028 |
+| R | Larpest-v7 | ginerJuanUdesa | — | -110.383 | -110.476 | 0.0% | -166.0 | -92.0 | 1000 | +0.030 |
 | 3 | Alan-Schadan-v6 | Alanschad | 15 | -110.502 | -110.686 | 0.0% | -174.0 | -92.0 | 1000 | +0.149 |
 | R | Larpest-v5 | ginerJuanUdesa | — | -110.524 | -110.532 | 0.0% | -194.0 | -92.0 | 1000 | +0.171 |
 | R | Alan-Schadan-v5 | Alanschad | — | -110.526 | -110.748 | 0.0% | -141.0 | -92.0 | 1000 | +0.173 |
@@ -656,6 +661,7 @@ _La montaña cambia de forma: cos(f·x) con f entre 2.6 y 2.8 (en vez de 3)._
 | R | Alan-Schadan-v2 | Alanschad | — | -112.926 | -111.050 | 4.7% | -200.0 | -84.0 | 1000 | +16.533 |
 | 38 | joaco-di-cola | joaco1212004 | 0 | -114.668 | -120.210 | 0.0% | -130.0 | -84.0 | 1000 | +18.275 |
 | R | Larpest-v4 | ginerJuanUdesa | — | -115.515 | -109.502 | 8.6% | -200.0 | -83.0 | 1000 | +19.122 |
+| R | Larpest-v7 | ginerJuanUdesa | — | -116.667 | -110.112 | 9.7% | -200.0 | -82.0 | 1000 | +20.274 |
 | R | Alan-Schadan-v3 | Alanschad | — | -117.224 | -112.124 | 8.2% | -200.0 | -83.0 | 1000 | +20.831 |
 | 39 | Larpest-v6 | ginerJuanUdesa | 0 | -117.329 | -110.242 | 10.3% | -200.0 | -82.0 | 1000 | +20.936 |
 | R | Wachinators-v2 | ginerJuanUdesa | — | -117.841 | -109.372 | 11.4% | -200.0 | -83.0 | 1000 | +21.448 |
