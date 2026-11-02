@@ -1,0 +1,7 @@
+{
+  "team": "McQueen-Kachow-v2",
+  "members": [
+    "Joaquín Cadeiras"
+  ],
+  "notes": "DQN con supervisión del simulador."
+}
