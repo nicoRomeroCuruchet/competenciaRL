@@ -1,6 +1,6 @@
 # 🏆 Leaderboard — Campeonato RL (DQN)
 
-Entorno base: `MountainCar-v0` · 5 circuitos · Ranking por **MEDIA** en cada circuito · Actualizado: 2026-11-03 19:48 UTC
+Entorno base: `MountainCar-v0` · 5 circuitos · Ranking por **MEDIA** en cada circuito · Actualizado: 2026-11-03 19:59 UTC
 
 Puntos por circuito: 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 (del 1° al 10°). La misma policy corre en todos los circuitos. Detalle de cada uno en el README.
 
@@ -96,6 +96,7 @@ No suman ni ocupan posiciones. Las posiciones son las que tendría cada auto si 
 | Larpest-v3 | ginerJuanUdesa | 9 | 9° (2) | 7° (6) | 11° | 16° | 10° (1) |
 | McQueen-Kachow-v2 | Joacocade | 0 | 22° | 13° | 33° | 17° | 18° |
 | McQueen-Kachow | Joacocade | 0 | 32° | 23° | 33° | 36° | 15° |
+| yo-3 | jojojab | 5 | 31° | 21° | 10° (1) | 8° (4) | 36° |
 | yo | jojojab | 2 | 10° (1) | 28° | 35° | 36° | 10° (1) |
 | lein2 | matilein | 25 | 42° | 17° | 35° | 29° | 1° (25) |
 | lein | matilein | 13 | 29° | 31° | 4° (12) | 10° (1) | 29° |
@@ -219,6 +220,7 @@ _MountainCar-v0 tal cual._
 | R | domabot3 | Sdomato | — | -100.713 | -104.222 | 0.0% | -106.0 | -86.0 | 1000 | +3.305 |
 | R | Wachinators-v3 | ginerJuanUdesa | — | -100.727 | -102.798 | 0.0% | -104.0 | -83.0 | 1000 | +3.319 |
 | R | Alan-Schadan-v2 | Alanschad | — | -100.745 | -103.642 | 0.0% | -105.0 | -83.0 | 1000 | +3.337 |
+| R | yo-3 | jojojab | — | -100.797 | -103.572 | 0.0% | -105.0 | -83.0 | 1000 | +3.389 |
 | R | Larpest-v7 | ginerJuanUdesa | — | -101.144 | -103.536 | 0.0% | -104.0 | -83.0 | 1000 | +3.736 |
 | 32 | Larpest-v6 | ginerJuanUdesa | 0 | -101.191 | -103.554 | 0.0% | -104.0 | -83.0 | 1000 | +3.783 |
 | R | McQueen-Kachow | Joacocade | — | -101.280 | -103.874 | 0.0% | -113.0 | -83.0 | 1000 | +3.872 |
@@ -326,6 +328,7 @@ _Largan desde cualquier punto de la pista y con velocidad inicial._
 | 20 | naoagent | naomicouriel | 0 | -58.227 | -58.956 | 0.0% | -173.0 | -3.0 | 1000 | +1.168 |
 | R | naoagent-greedy | naomicouriel | — | -58.228 | -58.958 | 0.0% | -165.0 | -3.0 | 1000 | +1.169 |
 | 21 | gonzalezds | mariagonzalezdelsolar | 0 | -58.248 | -60.034 | 0.0% | -152.0 | -3.0 | 1000 | +1.189 |
+| R | yo-3 | jojojab | — | -58.288 | -59.374 | 0.0% | -150.0 | -3.0 | 1000 | +1.229 |
 | R | ivan-de-pineda-es-inocente-sin-features | RamaMusic | — | -58.294 | -59.248 | 0.0% | -186.0 | -3.0 | 1000 | +1.235 |
 | R | ivan-de-pineda-102 | RamaMusic | — | -58.301 | -59.080 | 0.0% | -181.0 | -3.0 | 1000 | +1.242 |
 | R | naoagent-ensemble | naomicouriel | — | -58.313 | -59.024 | 0.0% | -173.0 | -3.0 | 1000 | +1.254 |
@@ -414,6 +417,7 @@ _Sensores con ruido gaussiano en posición y velocidad._
 | R | naoagent-greedy3 | naomicouriel | — | -102.200 | -101.928 | 0.0% | -174.0 | -83.0 | 1000 | +2.271 |
 | R | ivan-de-pineda-es-inocente-con-features | RamaMusic | — | -102.255 | -101.862 | 0.0% | -183.0 | -83.0 | 1000 | +2.326 |
 | R | AGIrton-Senna | varbelaiz | — | -102.347 | -101.702 | 0.0% | -191.0 | -83.0 | 1000 | +2.418 |
+| R | yo-3 | jojojab | — | -102.476 | -104.006 | 0.0% | -194.0 | -83.0 | 1000 | +2.547 |
 | 11 | leon-alderete | joaquinleondev | 0 | -102.486 | -102.160 | 0.0% | -183.0 | -83.0 | 1000 | +2.557 |
 | R | bravo-andres-r2 | Andresbravo9 | — | -102.565 | -103.570 | 0.0% | -166.0 | -83.0 | 1000 | +2.636 |
 | R | Larpest-v3 | ginerJuanUdesa | — | -102.578 | -102.460 | 0.0% | -189.0 | -83.0 | 1000 | +2.649 |
@@ -519,6 +523,7 @@ _El motor rinde entre 8% y 12% menos._
 | R | bravo-andres-r2 | Andresbravo9 | — | -112.686 | -111.022 | 0.1% | -200.0 | -92.0 | 1000 | +2.333 |
 | 7 | ignacio-vargas | ignacio279 | 6 | -113.167 | -110.740 | 0.0% | -197.0 | -92.0 | 1000 | +2.814 |
 | R | agusamblard-v4 | agusamblard | — | -113.436 | -111.512 | 0.4% | -200.0 | -92.0 | 1000 | +3.083 |
+| R | yo-3 | jojojab | — | -113.581 | -110.652 | 0.0% | -184.0 | -92.0 | 1000 | +3.228 |
 | R | bravo-andres-r5 | Andresbravo9 | — | -114.266 | -110.616 | 0.4% | -200.0 | -92.0 | 1000 | +3.913 |
 | R | bravo-andres-r1 | Andresbravo9 | — | -114.705 | -111.036 | 0.0% | -194.0 | -92.0 | 1000 | +4.352 |
 | R | valentino-pettazi-4 | ValenPettaz1 | — | -114.846 | -110.730 | 0.6% | -200.0 | -92.0 | 1000 | +4.493 |
@@ -710,6 +715,7 @@ _La montaña cambia de forma: cos(f·x) con f entre 2.6 y 2.8 (en vez de 3)._
 | 35 | zoffi | florzoffi | 0 | -111.519 | -109.972 | 4.8% | -200.0 | -83.0 | 1000 | +15.126 |
 | 36 | martin-bianchi | martinbianchi0 | 0 | -112.161 | -110.708 | 0.1% | -200.0 | -86.0 | 1000 | +15.768 |
 | R | fium-V4 | tomasbenavidez | — | -112.716 | -113.488 | 1.4% | -200.0 | -85.0 | 1000 | +16.323 |
+| R | yo-3 | jojojab | — | -112.909 | -110.058 | 6.7% | -200.0 | -82.0 | 1000 | +16.516 |
 | R | Alan-Schadan-v2 | Alanschad | — | -112.926 | -111.050 | 4.7% | -200.0 | -84.0 | 1000 | +16.533 |
 | 37 | joaco-di-cola | joaco1212004 | 0 | -114.668 | -120.210 | 0.0% | -130.0 | -84.0 | 1000 | +18.275 |
 | R | Larpest-v4 | ginerJuanUdesa | — | -115.515 | -109.502 | 8.6% | -200.0 | -83.0 | 1000 | +19.122 |
