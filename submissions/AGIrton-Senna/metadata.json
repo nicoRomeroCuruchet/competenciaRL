@@ -1,0 +1,7 @@
+{
+  "team": "AGIrton Senna",
+  "members": [
+    "Valentino Arbelaiz"
+  ],
+  "notes": "Ensamble de cinco especialistas C51 + 3-step + Dueling (uno por circuito) con pesos de mezcla dependientes del estado, aprendidos con los especialistas congelados."
+}
