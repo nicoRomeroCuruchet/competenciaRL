@@ -3,5 +3,5 @@
   "members": [
     "Valentino Arbelaiz"
   ],
-  "notes": "Promedio simple de cinco especialistas C51 congelados; peso 0.2 por especialista."
+  "notes": "Red unica C51 + 3-step + Dueling con target suave, entrenada con shaping de energia mecanica y refinada con ajuste fino y promedio de pesos."
 }
