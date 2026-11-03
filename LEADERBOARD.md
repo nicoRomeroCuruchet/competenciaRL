@@ -1,6 +1,6 @@
 # 🏆 Leaderboard — Campeonato RL (DQN)
 
-Entorno base: `MountainCar-v0` · 5 circuitos · Ranking por **MEDIA** en cada circuito · Actualizado: 2026-11-03 13:26 UTC
+Entorno base: `MountainCar-v0` · 5 circuitos · Ranking por **MEDIA** en cada circuito · Actualizado: 2026-11-03 15:07 UTC
 
 Puntos por circuito: 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 (del 1° al 10°). La misma policy corre en todos los circuitos. Detalle de cada uno en el README.
 
@@ -100,9 +100,9 @@ No suman ni ocupan posiciones. Las posiciones son las que tendría cada auto si 
 | mborrell01-v2 | mborrell01 | 0 | 35° | 22° | 40° | 20° | 23° |
 | mborrell01 | mborrell01 | 0 | 42° | 23° | 39° | 20° | 23° |
 | naoagent-greedy | naomicouriel | 33 | 4° (12) | 19° | 3° (15) | 26° | 7° (6) |
+| naoagent-ensemble | naomicouriel | 30 | 3° (15) | 20° | 3° (15) | 23° | 11° |
 | naoagent-greedy2 | naomicouriel | 21 | 3° (15) | 29° | 11° | 35° | 7° (6) |
 | naoagent-greedy3 | naomicouriel | 20 | 3° (15) | 23° | 8° (4) | 30° | 10° (1) |
-| naoagent-ensemble | naomicouriel | 19 | 19° | 11° | 3° (15) | 8° (4) | 27° |
 | ivan-de-pineda-105 | RamaMusic | 18 | 17° | 15° | 2° (18) | 13° | 18° |
 | ivan-de-pineda-102 | RamaMusic | 16 | 10° (1) | 20° | 3° (15) | 20° | 12° |
 | ivan-de-pineda-101 | RamaMusic | 16 | 10° (1) | 15° | 3° (15) | 16° | 13° |
@@ -136,6 +136,7 @@ _MountainCar-v0 tal cual._
 | 1 | McQueen-Kachow-v3 | Joacocade | 25 | -97.409 | -100.242 | 0.0% | -104.0 | -83.0 | 1000 | — |
 | R | sally-m | athinasalimm | — | -97.409 | -100.244 | 0.0% | -104.0 | -83.0 | 1000 | +0.000 |
 | 2 | sally-m2 | athinasalimm | 18 | -97.414 | -100.254 | 0.0% | -104.0 | -83.0 | 1000 | +0.005 |
+| R | naoagent-ensemble | naomicouriel | — | -97.423 | -100.270 | 0.0% | -104.0 | -83.0 | 1000 | +0.014 |
 | R | naoagent-greedy3 | naomicouriel | — | -97.423 | -100.268 | 0.0% | -104.0 | -83.0 | 1000 | +0.014 |
 | R | naoagent-greedy2 | naomicouriel | — | -97.428 | -100.276 | 0.0% | -104.0 | -83.0 | 1000 | +0.019 |
 | 3 | vanafa | VANAFA | 15 | -97.430 | -100.282 | 0.0% | -104.0 | -83.0 | 1000 | +0.021 |
@@ -177,7 +178,6 @@ _MountainCar-v0 tal cual._
 | 19 | DeCruz | BrunoDC-dev | 0 | -98.927 | -102.420 | 0.0% | -104.0 | -83.0 | 1000 | +1.518 |
 | R | Revancha_de_Irineo_B | BungeSantiago | — | -99.009 | -102.956 | 0.0% | -104.0 | -83.0 | 1000 | +1.600 |
 | R | tomas-castro-equilibrado | tommycass | — | -99.025 | -102.460 | 0.0% | -106.0 | -83.0 | 1000 | +1.616 |
-| R | naoagent-ensemble | naomicouriel | — | -99.111 | -102.670 | 0.0% | -104.0 | -83.0 | 1000 | +1.702 |
 | 20 | sb3zoo | Gabo-Tor | 0 | -99.114 | -101.784 | 0.0% | -108.0 | -84.0 | 1000 | +1.705 |
 | 21 | tem | Pedro-Lonardi | 0 | -99.139 | -102.690 | 0.0% | -105.0 | -83.0 | 1000 | +1.730 |
 | R | McQueen-Kachow-v2 | Joacocade | — | -99.178 | -102.076 | 0.0% | -108.0 | -83.0 | 1000 | +1.769 |
@@ -284,7 +284,6 @@ _Largan desde cualquier punto de la pista y con velocidad inicial._
 | 10 | fium-V5 | tomasbenavidez | 1 | -57.606 | -59.036 | 0.0% | -158.0 | -3.0 | 1000 | +0.547 |
 | R | Alan-Schadan-v2 | Alanschad | — | -57.654 | -59.382 | 0.0% | -119.0 | -3.0 | 1000 | +0.595 |
 | R | DeCruz_v2 | BrunoDC-dev | — | -57.695 | -59.052 | 0.0% | -147.0 | -3.0 | 1000 | +0.636 |
-| R | naoagent-ensemble | naomicouriel | — | -57.698 | -58.910 | 0.0% | -170.0 | -3.0 | 1000 | +0.639 |
 | 11 | frangiavarini-exp12 | frangiavarini | 0 | -57.728 | -59.366 | 0.0% | -115.0 | -3.0 | 1000 | +0.669 |
 | R | fium-V4 | tomasbenavidez | — | -57.747 | -59.064 | 0.0% | -132.0 | -3.0 | 1000 | +0.688 |
 | R | Wachinators-v1 | ginerJuanUdesa | — | -57.785 | -59.024 | 0.0% | -171.0 | -3.0 | 1000 | +0.726 |
@@ -318,6 +317,7 @@ _Largan desde cualquier punto de la pista y con velocidad inicial._
 | 20 | gonzalezds | mariagonzalezdelsolar | 0 | -58.248 | -60.034 | 0.0% | -152.0 | -3.0 | 1000 | +1.189 |
 | R | ivan-de-pineda-es-inocente-sin-features | RamaMusic | — | -58.294 | -59.248 | 0.0% | -186.0 | -3.0 | 1000 | +1.235 |
 | R | ivan-de-pineda-102 | RamaMusic | — | -58.301 | -59.080 | 0.0% | -181.0 | -3.0 | 1000 | +1.242 |
+| R | naoagent-ensemble | naomicouriel | — | -58.313 | -59.024 | 0.0% | -173.0 | -3.0 | 1000 | +1.254 |
 | 21 | valentino-pettazi | ValenPettaz1 | 0 | -58.336 | -59.816 | 0.0% | -149.0 | -3.0 | 1000 | +1.277 |
 | R | mborrell01-v2 | mborrell01 | — | -58.349 | -59.354 | 0.0% | -139.0 | -3.0 | 1000 | +1.290 |
 | 22 | argMax-Verstappen | varbelaiz | 0 | -58.448 | -60.010 | 0.0% | -140.0 | -3.0 | 1000 | +1.389 |
@@ -370,11 +370,11 @@ _Sensores con ruido gaussiano en posición y velocidad._
 | R | naoagent-greedy | naomicouriel | — | -100.006 | -101.574 | 0.0% | -185.0 | -83.0 | 1000 | +0.077 |
 | R | ivan-de-pineda-105 | RamaMusic | — | -100.152 | -102.388 | 0.0% | -176.0 | -83.0 | 1000 | +0.223 |
 | 3 | naoagent | naomicouriel | 15 | -100.160 | -101.568 | 0.0% | -179.0 | -83.0 | 1000 | +0.231 |
+| R | naoagent-ensemble | naomicouriel | — | -100.198 | -101.470 | 0.0% | -189.0 | -83.0 | 1000 | +0.269 |
 | R | ivan-de-pineda-102 | RamaMusic | — | -100.277 | -101.974 | 0.0% | -176.0 | -83.0 | 1000 | +0.348 |
 | R | valentino-pettazi-3 | ValenPettaz1 | — | -100.288 | -102.146 | 0.0% | -188.0 | -83.0 | 1000 | +0.359 |
 | R | ivan-de-pineda-103 | RamaMusic | — | -100.382 | -102.450 | 0.0% | -172.0 | -83.0 | 1000 | +0.453 |
 | R | tomas-castro-equilibrado | tommycass | — | -100.485 | -102.648 | 0.0% | -175.0 | -83.0 | 1000 | +0.556 |
-| R | naoagent-ensemble | naomicouriel | — | -100.542 | -102.904 | 0.0% | -181.0 | -83.0 | 1000 | +0.613 |
 | R | lein | matilein | — | -100.563 | -103.400 | 0.0% | -186.0 | -83.0 | 1000 | +0.634 |
 | R | ivan-de-pineda-101 | RamaMusic | — | -100.571 | -101.786 | 0.0% | -173.0 | -83.0 | 1000 | +0.642 |
 | R | ivan-de-pineda-104 | RamaMusic | — | -100.616 | -102.922 | 0.0% | -173.0 | -83.0 | 1000 | +0.687 |
@@ -506,7 +506,6 @@ _El motor rinde entre 8% y 12% menos._
 | R | bravo-andres-r1 | Andresbravo9 | — | -114.705 | -111.036 | 0.0% | -194.0 | -92.0 | 1000 | +4.352 |
 | R | valentino-pettazi-4 | ValenPettaz1 | — | -114.846 | -110.730 | 0.6% | -200.0 | -92.0 | 1000 | +4.493 |
 | R | Revancha_de_Irineo_B | BungeSantiago | — | -114.882 | -110.732 | 0.0% | -177.0 | -92.0 | 1000 | +4.529 |
-| R | naoagent-ensemble | naomicouriel | — | -115.473 | -110.828 | 0.6% | -200.0 | -92.0 | 1000 | +5.120 |
 | 8 | DeCruz | BrunoDC-dev | 4 | -115.643 | -111.288 | 0.2% | -200.0 | -92.0 | 1000 | +5.290 |
 | R | domabot4 | Sdomato | — | -115.935 | -110.858 | 0.0% | -186.0 | -92.0 | 1000 | +5.582 |
 | R | SilverArrow | VANAFA | — | -116.054 | -111.094 | 0.3% | -200.0 | -92.0 | 1000 | +5.701 |
@@ -542,6 +541,7 @@ _El motor rinde entre 8% y 12% menos._
 | 21 | sgroba | Santi2065 | 0 | -124.057 | -113.460 | 1.6% | -200.0 | -93.0 | 1000 | +13.704 |
 | 22 | frangiavarini-exp12 | frangiavarini | 0 | -124.562 | -115.994 | 1.4% | -200.0 | -93.0 | 1000 | +14.209 |
 | 23 | naoagent | naomicouriel | 0 | -124.815 | -116.934 | 0.3% | -200.0 | -92.0 | 1000 | +14.462 |
+| R | naoagent-ensemble | naomicouriel | — | -124.920 | -116.186 | 0.3% | -200.0 | -92.0 | 1000 | +14.567 |
 | 24 | McQueen-Kachow-v3 | Joacocade | 0 | -125.034 | -119.918 | 0.3% | -200.0 | -92.0 | 1000 | +14.681 |
 | R | salim | athinasalimm | — | -125.186 | -119.948 | 0.0% | -195.0 | -93.0 | 1000 | +14.833 |
 | R | ivan-de-pineda-es-inocente-sin-features | RamaMusic | — | -125.251 | -117.268 | 2.9% | -200.0 | -92.0 | 1000 | +14.898 |
@@ -629,6 +629,7 @@ _La montaña cambia de forma: cos(f·x) con f entre 2.6 y 2.8 (en vez de 3)._
 | 11 | leon-alderete | joaquinleondev | 0 | -99.202 | -101.910 | 0.0% | -110.0 | -82.0 | 1000 | +3.507 |
 | R | ivan-de-pineda-102 | RamaMusic | — | -99.342 | -102.606 | 0.0% | -110.0 | -82.0 | 1000 | +3.647 |
 | R | sally-m | athinasalimm | — | -99.412 | -101.678 | 0.0% | -111.0 | -83.0 | 1000 | +3.717 |
+| R | naoagent-ensemble | naomicouriel | — | -99.438 | -102.000 | 0.0% | -111.0 | -83.0 | 1000 | +3.743 |
 | R | ivan-de-pineda-es-inocente-sin-features | RamaMusic | — | -99.473 | -102.166 | 0.0% | -111.0 | -82.0 | 1000 | +3.778 |
 | R | ivan-de-pineda-es-inocente-con-features | RamaMusic | — | -99.569 | -102.144 | 0.0% | -111.0 | -83.0 | 1000 | +3.874 |
 | R | tomasbenavidez | tomasbenavidez | — | -100.060 | -102.298 | 0.0% | -122.0 | -83.0 | 1000 | +4.365 |
@@ -664,7 +665,6 @@ _La montaña cambia de forma: cos(f·x) con f entre 2.6 y 2.8 (en vez de 3)._
 | 26 | domabot2 | Sdomato | 0 | -102.947 | -107.528 | 0.0% | -115.0 | -83.0 | 1000 | +7.252 |
 | 27 | sgroba | Santi2065 | 0 | -102.965 | -105.862 | 0.0% | -117.0 | -83.0 | 1000 | +7.270 |
 | R | domabot4 | Sdomato | — | -103.230 | -107.998 | 0.0% | -114.0 | -82.0 | 1000 | +7.535 |
-| R | naoagent-ensemble | naomicouriel | — | -103.321 | -107.904 | 0.0% | -116.0 | -83.0 | 1000 | +7.626 |
 | R | domabot3 | Sdomato | — | -103.450 | -107.510 | 0.3% | -200.0 | -82.0 | 1000 | +7.755 |
 | 28 | maxi | maxividela2577 | 0 | -103.585 | -107.732 | 0.0% | -118.0 | -83.0 | 1000 | +7.890 |
 | R | Revancha_de_Irineo_B | BungeSantiago | — | -103.597 | -108.572 | 0.0% | -117.0 | -82.0 | 1000 | +7.902 |
