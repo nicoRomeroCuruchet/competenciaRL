@@ -1,6 +1,6 @@
 # 🏆 Leaderboard — Campeonato RL (DQN)
 
-Entorno base: `MountainCar-v0` · 5 circuitos · Ranking por **MEDIA** en cada circuito · Actualizado: 2026-11-03 13:16 UTC
+Entorno base: `MountainCar-v0` · 5 circuitos · Ranking por **MEDIA** en cada circuito · Actualizado: 2026-11-03 13:26 UTC
 
 Puntos por circuito: 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 (del 1° al 10°). La misma policy corre en todos los circuitos. Detalle de cada uno en el README.
 
@@ -63,6 +63,7 @@ No suman ni ocupan posiciones. Las posiciones son las que tendría cada auto si 
 |------|-----------|-----:|:---:|:---:|:---:|:---:|:---:|
 | agusamblard-v4 | agusamblard | 12 | 28° | 14° | 7° (6) | 7° (6) | 32° |
 | agusamblard | agusamblard | 1 | 10° (1) | 27° | 25° | 39° | 31° |
+| Alan-Schadan-v7 | Alanschad | 27 | 35° | 4° (12) | 18° | 3° (15) | 39° |
 | Alan-Schadan-v5 | Alanschad | 27 | 36° | 4° (12) | 18° | 3° (15) | 39° |
 | Alan-Schadan-v3 | Alanschad | 16 | 34° | 7° (6) | 19° | 5° (10) | 38° |
 | Alan-Schadan-v4 | Alanschad | 16 | 35° | 7° (6) | 19° | 5° (10) | 39° |
@@ -221,6 +222,7 @@ _MountainCar-v0 tal cual._
 | 34 | mborrell01-v5 | mborrell01 | 0 | -101.604 | -103.552 | 0.0% | -105.0 | -83.0 | 1000 | +4.195 |
 | R | valentino-pettazi-5 | ValenPettaz1 | — | -101.615 | -104.252 | 0.0% | -105.0 | -84.0 | 1000 | +4.206 |
 | 35 | Alan-Schadan-v6 | Alanschad | 0 | -101.750 | -103.926 | 0.0% | -104.0 | -83.0 | 1000 | +4.341 |
+| R | Alan-Schadan-v7 | Alanschad | — | -101.750 | -103.926 | 0.0% | -104.0 | -83.0 | 1000 | +4.341 |
 | R | Alan-Schadan-v4 | Alanschad | — | -101.753 | -103.976 | 0.0% | -104.0 | -83.0 | 1000 | +4.344 |
 | R | mborrell01-v2 | mborrell01 | — | -101.822 | -104.682 | 0.0% | -146.0 | -83.0 | 1000 | +4.413 |
 | 36 | agusamblard-motor | agusamblard | 0 | -101.893 | -103.652 | 0.0% | -105.0 | -83.0 | 1000 | +4.484 |
@@ -253,6 +255,7 @@ _Largan desde cualquier punto de la pista y con velocidad inicial._
 | R | Sloppeitors-v1 | ginerJuanUdesa | — | -57.142 | -58.880 | 0.0% | -124.0 | -3.0 | 1000 | +0.083 |
 | R | Wachinators-v4 | ginerJuanUdesa | — | -57.142 | -58.864 | 0.0% | -124.0 | -3.0 | 1000 | +0.083 |
 | 3 | DeCruz | BrunoDC-dev | 15 | -57.175 | -58.862 | 0.0% | -119.0 | -3.0 | 1000 | +0.116 |
+| R | Alan-Schadan-v7 | Alanschad | — | -57.184 | -58.874 | 0.0% | -112.0 | -3.0 | 1000 | +0.125 |
 | 4 | Alan-Schadan-v6 | Alanschad | 12 | -57.203 | -58.866 | 0.0% | -112.0 | -3.0 | 1000 | +0.144 |
 | R | Alan-Schadan-v5 | Alanschad | — | -57.207 | -58.858 | 0.0% | -112.0 | -3.0 | 1000 | +0.148 |
 | R | Wachinators-v3 | ginerJuanUdesa | — | -57.227 | -58.850 | 0.0% | -133.0 | -3.0 | 1000 | +0.168 |
@@ -412,6 +415,7 @@ _Sensores con ruido gaussiano en posición y velocidad._
 | 16 | DeCruz | BrunoDC-dev | 0 | -103.804 | -103.392 | 0.0% | -176.0 | -83.0 | 1000 | +3.875 |
 | R | Alan-Schadan-v2 | Alanschad | — | -104.049 | -103.880 | 0.0% | -171.0 | -83.0 | 1000 | +4.120 |
 | 17 | LaMakina | SantinoGalliano | 0 | -104.050 | -105.182 | 0.2% | -200.0 | -83.0 | 1000 | +4.121 |
+| R | Alan-Schadan-v7 | Alanschad | — | -104.052 | -103.928 | 0.0% | -172.0 | -83.0 | 1000 | +4.123 |
 | R | Alan-Schadan-v5 | Alanschad | — | -104.076 | -103.970 | 0.0% | -163.0 | -83.0 | 1000 | +4.147 |
 | 18 | Alan-Schadan-v6 | Alanschad | 0 | -104.120 | -103.930 | 0.0% | -172.0 | -83.0 | 1000 | +4.191 |
 | 19 | tem | Pedro-Lonardi | 0 | -104.146 | -103.940 | 0.0% | -169.0 | -83.0 | 1000 | +4.217 |
@@ -481,6 +485,7 @@ _El motor rinde entre 8% y 12% menos._
 | 2 | Larpest-v6 | ginerJuanUdesa | 18 | -110.381 | -110.480 | 0.0% | -173.0 | -92.0 | 1000 | +0.028 |
 | R | Larpest-v7 | ginerJuanUdesa | — | -110.383 | -110.476 | 0.0% | -166.0 | -92.0 | 1000 | +0.030 |
 | 3 | Alan-Schadan-v6 | Alanschad | 15 | -110.502 | -110.686 | 0.0% | -174.0 | -92.0 | 1000 | +0.149 |
+| R | Alan-Schadan-v7 | Alanschad | — | -110.502 | -110.686 | 0.0% | -174.0 | -92.0 | 1000 | +0.149 |
 | R | Larpest-v5 | ginerJuanUdesa | — | -110.524 | -110.532 | 0.0% | -194.0 | -92.0 | 1000 | +0.171 |
 | R | Alan-Schadan-v5 | Alanschad | — | -110.526 | -110.748 | 0.0% | -141.0 | -92.0 | 1000 | +0.173 |
 | 4 | agusamblard-motor | agusamblard | 12 | -110.550 | -110.592 | 0.0% | -126.0 | -92.0 | 1000 | +0.197 |
@@ -691,6 +696,7 @@ _La montaña cambia de forma: cos(f·x) con f entre 2.6 y 2.8 (en vez de 3)._
 | R | Wachinators-v2 | ginerJuanUdesa | — | -117.841 | -109.372 | 11.4% | -200.0 | -83.0 | 1000 | +22.146 |
 | R | Larpest-v5 | ginerJuanUdesa | — | -118.195 | -110.728 | 10.8% | -200.0 | -82.0 | 1000 | +22.500 |
 | R | Alan-Schadan-v4 | Alanschad | — | -118.661 | -112.358 | 9.5% | -200.0 | -83.0 | 1000 | +22.966 |
+| R | Alan-Schadan-v7 | Alanschad | — | -119.145 | -111.944 | 10.6% | -200.0 | -83.0 | 1000 | +23.450 |
 | 39 | Alan-Schadan-v6 | Alanschad | 0 | -119.164 | -111.964 | 10.6% | -200.0 | -83.0 | 1000 | +23.469 |
 | R | Alan-Schadan-v5 | Alanschad | — | -120.674 | -112.302 | 12.0% | -200.0 | -83.0 | 1000 | +24.979 |
 | 40 | mborrell01-v5 | mborrell01 | 0 | -120.834 | -110.646 | 13.8% | -200.0 | -82.0 | 1000 | +25.139 |
