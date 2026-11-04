@@ -1,0 +1,7 @@
+{
+  "team": "viaggio-v2",
+  "members": [
+    "Felipe Viaggio"
+  ],
+  "notes": "DQN con domain randomization de la forma de la pista (cos(f x) con f entre 2.6 y 2.8), reward shaping con potencial de energia cinetica, lr decreciente y mejor checkpoint por semillas propias (exp19_otrapista, semilla 59)"
+}
