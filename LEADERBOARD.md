@@ -1,6 +1,6 @@
 # 🏆 Leaderboard — Campeonato RL (DQN)
 
-Entorno base: `MountainCar-v0` · 7 circuitos · Ranking por **MEDIA** en cada circuito · Actualizado: 2026-11-06 18:14 UTC
+Entorno base: `MountainCar-v0` · 7 circuitos · Ranking por **MEDIA** en cada circuito · Actualizado: 2026-11-06 18:47 UTC
 
 Puntos por circuito: 25, 18, 15, 12, 10, 8, 6, 4, 2, 1 (del 1° al 10°). La misma policy corre en todos los circuitos. Detalle de cada uno en el README.
 
@@ -301,7 +301,7 @@ _MountainCar-v0 tal cual._
 | 28 | romano | lucasU1969 | 0 | -100.303 | -103.066 | 0.0% | -112.0 | -83.0 | 1000 | +2.548 |
 | 29 | szterensus | joacoszterensus | 0 | -100.304 | -102.846 | 0.0% | -104.0 | -83.0 | 1000 | +2.549 |
 | R | bravo-andres-r2 | Andresbravo9 | — | -100.357 | -102.952 | 0.0% | -104.0 | -83.0 | 1000 | +2.602 |
-| R | Sloppeitors-v1 | ginerJuanUdesa | — | -100.373 | -102.070 | 0.0% | -141.0 | -83.0 | 1000 | +2.618 |
+| R | Sloppeitors-v1 | ginerJuanUdesa | — | -100.372 | -102.068 | 0.0% | -141.0 | -83.0 | 1000 | +2.617 |
 | 30 | ignacio-vargas | ignacio279 | 0 | -100.447 | -103.296 | 0.0% | -105.0 | -83.0 | 1000 | +2.692 |
 | R | fium-V4 | tomasbenavidez | — | -100.497 | -103.600 | 0.0% | -105.0 | -83.0 | 1000 | +2.742 |
 | R | fium-V1 | tomasbenavidez | — | -100.511 | -102.938 | 0.0% | -125.0 | -84.0 | 1000 | +2.756 |
@@ -880,7 +880,7 @@ _Sensores con el doble de ruido gaussiano que en el GP Lluvia._
 | 44 | agusamblard-motor2 | agusamblard | 0 | -135.421 | -131.344 | 1.7% | -200.0 | -85.0 | 1000 | +25.779 |
 | 45 | martin-bianchi | martinbianchi0 | 0 | -135.689 | -130.956 | 2.6% | -200.0 | -84.0 | 1000 | +26.047 |
 | 46 | jazgeller | jazgeller | 0 | -136.490 | -133.184 | 2.8% | -200.0 | -83.0 | 1000 | +26.848 |
-| R | agusamblard-motor | agusamblard | — | -137.089 | -131.102 | 4.8% | -200.0 | -103.0 | 1000 | +27.447 |
+| R | agusamblard-motor | agusamblard | — | -137.087 | -131.102 | 4.8% | -200.0 | -103.0 | 1000 | +27.445 |
 | R | tomasbenavidez | tomasbenavidez | — | -137.145 | -136.714 | 1.7% | -200.0 | -83.0 | 1000 | +27.503 |
 | R | domabot | Sdomato | — | -137.178 | -133.088 | 3.0% | -200.0 | -84.0 | 1000 | +27.536 |
 | REF | PD-del-profe | fuera de concurso | — | -138.034 | -135.328 | 2.9% | -200.0 | -85.0 | 1000 | +28.392 |
@@ -954,7 +954,7 @@ _El motor rinde entre 5% y 15% menos._
 | R | Larpest-v4 | ginerJuanUdesa | — | -115.603 | -110.868 | 0.7% | -200.0 | -88.0 | 1000 | +2.541 |
 | R | Revancha_de_Irineo_B | BungeSantiago | — | -115.652 | -110.966 | 0.0% | -175.0 | -88.0 | 1000 | +2.590 |
 | R | fede-gutman-v3 | fedegutman | — | -115.916 | -110.988 | 0.0% | -173.0 | -88.0 | 1000 | +2.854 |
-| R | Wachinators-v3 | ginerJuanUdesa | — | -116.044 | -110.904 | 0.8% | -200.0 | -88.0 | 1000 | +2.982 |
+| R | Wachinators-v3 | ginerJuanUdesa | — | -116.043 | -110.904 | 0.8% | -200.0 | -88.0 | 1000 | +2.981 |
 | R | nikki-lambda | varbelaiz | — | -116.102 | -113.010 | 0.9% | -200.0 | -88.0 | 1000 | +3.040 |
 | 9 | nico-lossberg | varbelaiz | 2 | -116.175 | -110.968 | 0.5% | -200.0 | -88.0 | 1000 | +3.113 |
 | R | mooncake-ens6 | agerbazoni | — | -116.262 | -111.470 | 0.5% | -200.0 | -88.0 | 1000 | +3.200 |
@@ -1031,7 +1031,7 @@ _El motor rinde entre 5% y 15% menos._
 | R | viaggio-v3 | FelipeViaggioFL | — | -126.453 | -115.244 | 0.6% | -200.0 | -88.0 | 1000 | +13.391 |
 | 35 | Mate-marcha-atras | VANAFA | 0 | -126.542 | -120.740 | 1.2% | -200.0 | -88.0 | 1000 | +13.480 |
 | 36 | ivan-de-pineda-es-inocente-sin-features | RamaMusic | 0 | -126.620 | -118.730 | 3.4% | -200.0 | -88.0 | 1000 | +13.558 |
-| R | AGIrton-Senna | varbelaiz | — | -126.653 | -118.710 | 1.6% | -200.0 | -88.0 | 1000 | +13.591 |
+| R | AGIrton-Senna | varbelaiz | — | -126.652 | -118.710 | 1.6% | -200.0 | -88.0 | 1000 | +13.590 |
 | R | naoagent-ensemble | naomicouriel | — | -126.708 | -118.322 | 1.5% | -200.0 | -88.0 | 1000 | +13.646 |
 | R | ivan-de-pineda-es-inocente-con-features | RamaMusic | — | -126.789 | -120.124 | 1.1% | -200.0 | -88.0 | 1000 | +13.727 |
 | 37 | zoffi | florzoffi | 0 | -126.831 | -115.410 | 7.4% | -200.0 | -88.0 | 1000 | +13.769 |
