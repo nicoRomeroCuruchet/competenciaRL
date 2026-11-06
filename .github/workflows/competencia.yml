@@ -10,7 +10,8 @@ on:
     paths: ["submissions/**"]
   push:
     branches: [main]
-    paths: ["submissions/**"]
+    # config.yaml: si cambian los circuitos, el board se re-evalúa solo.
+    paths: ["submissions/**", "config.yaml"]
   workflow_dispatch:        # para correr el board manualmente el día D
 
 permissions:

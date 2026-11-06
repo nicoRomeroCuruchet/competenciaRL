@@ -41,18 +41,26 @@ circuits:
     name: "GP Largada libre"
     desc: "Largan desde cualquier punto de la pista y con velocidad inicial."
     params: {start_pos: [-1.2, 0.4], start_vel: [-0.05, 0.05]}
-  - id: lluvia
-    name: "GP Lluvia"
-    desc: "Sensores con ruido gaussiano en posición y velocidad."
-    params: {obs_noise_pos: [0.01, 0.03], obs_noise_vel: [0.001, 0.003]}
-  - id: motor-debil
-    name: "GP Motor débil"
-    desc: "El motor rinde entre 8% y 12% menos."
-    params: {force: [0.00088, 0.00092]}
-  - id: otra-pista
-    name: "GP Otra pista"
-    desc: "La montaña cambia de forma: cos(f·x) con f entre 2.6 y 2.8 (en vez de 3)."
-    params: {freq: [2.6, 2.8]}
+  - id: largada-extrema
+    name: "GP Largada extrema"
+    desc: "Largan desde cualquier punto (hasta pegados a la meta) y con hasta la velocidad máxima, para cualquier lado."
+    params: {start_pos: [-1.2, 0.5], start_vel: [-0.07, 0.07]}
+  - id: lluvia-fuerte
+    name: "GP Lluvia fuerte"
+    desc: "Sensores con el doble de ruido gaussiano que en el GP Lluvia."
+    params: {obs_noise_pos: [0.03, 0.06], obs_noise_vel: [0.003, 0.006]}
+  - id: motor-debil-xl
+    name: "GP Motor débil XL"
+    desc: "El motor rinde entre 5% y 15% menos."
+    params: {force: [0.00085, 0.00095]}
+  - id: otra-pista-xl
+    name: "GP Otra pista XL"
+    desc: "La montaña cambia de forma: cos(f·x) con f entre 2.5 y 2.9 (en vez de 3)."
+    params: {freq: [2.5, 2.9]}
+  - id: pista-empinada
+    name: "GP Pista empinada"
+    desc: "Más gravedad: entre 4% y 12% más (0.0026 a 0.0028, en vez de 0.0025)."
+    params: {gravity: [0.0026, 0.0028]}
 
 # Puntos por posición en cada circuito (estilo F1). Del 11° para abajo, 0.
 # Desempate: más primeros puestos, después más segundos, etc.
