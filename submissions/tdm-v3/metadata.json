@@ -1,0 +1,5 @@
+{
+  "team": "tdm-v3",
+  "members": ["Tiziano Demarco"],
+  "notes": "Double DQN ajustado por interaccion a partir de un agente propio, con domain randomization y enfasis en Otra pista. Red 64-64 ReLU, retorno de tres pasos y normalizacion incluida en ONNX."
+}
