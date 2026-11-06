@@ -1,1 +1,1 @@
-{"team": "leon-alderete", "members": ["Joaquin Leon Alderete"], "notes": "Primera versión: ensemble que promedia los Q de 10 DQN (target network + normalización de la observación dentro de la red + reward shaping por energía basado en potencial, 256x256, 3000 episodios), checkpoint elegido por validación propia"}
+{"team": "leon-alderete", "members": ["Leon Alderete"]}
