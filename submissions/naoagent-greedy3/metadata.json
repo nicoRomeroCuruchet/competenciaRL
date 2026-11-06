@@ -1,1 +1,1 @@
-{"team": "naoagent-greedy3", "members": ["Naomi Couriel"], "notes": "Ensemble que promedia los Q de 5 DQN con normalización dentro de la red, elegidas de a una (selección greedy) según una validación propia de 2000 seeds, entre 190 candidatos"}
+{"team": "naoagent-greedy3", "members": ["Naomi Couriel"], "notes": ""}
