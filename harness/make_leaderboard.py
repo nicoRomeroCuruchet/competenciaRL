@@ -16,6 +16,9 @@ elección no cambia).
 Autos de REFERENCIA (results/<x>.json con "referencia": true, sin carpeta en
 submissions/): fuera de concurso. Se muestran con los puestos que habrían
 sacado contra los titulares, pero no suman ni le sacan puestos a nadie.
+
+Escuderías DESCALIFICADAS (config.yaml -> descalificadas: {cuenta: motivo}):
+todos sus autos quedan fuera de concurso, igual que los de referencia.
 """
 import json
 from collections import defaultdict
@@ -145,6 +148,12 @@ def main():
                   "cuenta como escudería propia (se corrige en config.yaml -> escuderias).")
             owner[r["team"]] = r["team"]
 
+    # Escuderías descalificadas (config.yaml -> descalificadas): fuera de concurso,
+    # como el auto de referencia. Se muestran, pero no suman ni ocupan posiciones.
+    dq = CFG.get("descalificadas") or {}
+    desc = [r for r in results if owner[r["team"]] in dq]
+    results = [r for r in results if owner[r["team"]] not in dq]
+
     tit = pick_titulares(results, owner)
     titulares = list(tit.values())
     is_tit = {r["team"] for r in titulares}
@@ -192,6 +201,28 @@ def main():
             hp = positions_vs(r, titulares)
             lines.append(f"| {r['team']} | {-champ_key(hp, n)[0]} | " + " | ".join(cells(hp)) + " |")
 
+    # Descalificadas: posiciones que habría sacado cada auto contra los titulares.
+    if desc:
+        hyp_dq = {r["team"]: positions_vs(r, titulares) for r in desc}
+        lines += [
+            "",
+            "## 🚫 Escuderías descalificadas (en revisión)",
+            "",
+            "No compiten: no suman ni le sacan puestos a nadie. Las posiciones son las que "
+            "habría sacado cada auto contra los titulares.",
+            "",
+        ]
+        for o, motivo in dq.items():
+            lines.append(f"- **{o}**: {motivo}")
+        lines += [
+            "",
+            "| Auto | Escudería | Pts que habría sumado | " + " | ".join(short) + " |",
+            "|------|-----------|-----:|" + "|".join(":---:" for _ in CIRCUITS) + "|",
+        ]
+        for r in sorted(desc, key=lambda r: (owner[r["team"]].lower(), champ_key(hyp_dq[r["team"]], n), r["team"])):
+            t = r["team"]
+            lines.append(f"| {t} | {owner[t]} | {-champ_key(hyp_dq[t], n)[0]} | " + " | ".join(cells(hyp_dq[t])) + " |")
+
     # Reserva: qué haría cada auto si fuera el titular de su escudería.
     if reservas:
         hyp = {r["team"]: positions_vs(r, [t for o, t in tit.items() if o != owner[r["team"]]])
@@ -218,7 +249,8 @@ def main():
             continue
         leader = rows[0][1]["circuits"][cid]["mean"]
         all_rows = ([(p, r) for p, r in rows] + [(None, r) for r in reservas if cid in r["circuits"]]
-                    + [("REF", r) for r in refs if cid in r["circuits"]])
+                    + [("REF", r) for r in refs if cid in r["circuits"]]
+                    + [("DQ", r) for r in desc if cid in r["circuits"]])
         all_rows.sort(key=lambda pr: (-pr[1]["circuits"][cid][METRIC], not isinstance(pr[0], int)))
         lines += [
             "",

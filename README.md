@@ -33,6 +33,23 @@ Entrenan su DQN localmente y suben **solo los pesos** como un archivo ONNX.
 El board se actualiza solo a medida que mergeamos submissions, y el día de la
 competencia corre la ronda final sobre seeds que nadie vio.
 
+## 🚫 Descalificaciones (en revisión)
+
+Las escuderías **Joacocade** (McQueen-Kachow) y **athinasalimm** (sally-m) quedan
+**descalificadas preventivamente** hasta que revisemos su código de entrenamiento.
+
+Sus policies coinciden casi exactamente con una solución por **programación dinámica**.
+En 300 episodios de prueba, en los estados donde hay una acción claramente mejor, se apartan
+de la acción óptima menos de 20 veces; los mejores DQN del resto, entre 100 y 1.000 veces.
+Además, sus redes no son redes Q: tienen una cabeza que predice los pasos exactos que faltan
+para llegar y parches puestos justo donde la red se apartaba de la solución óptima.
+La competencia es de **DQN**: el auto tiene que aprender de las recompensas del entorno,
+no copiar una solución calculada con el modelo.
+
+Sus autos siguen apareciendo en el [leaderboard](LEADERBOARD.md), fuera de concurso: no
+suman ni le sacan puestos a nadie. Si el código muestra que es un DQN entrenado con
+recompensas, se reincorporan con todos sus puntos.
+
 ## Fechas
 
 | | |

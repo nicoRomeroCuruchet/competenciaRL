@@ -65,3 +65,9 @@ circuits:
 # Puntos por posición en cada circuito (estilo F1). Del 11° para abajo, 0.
 # Desempate: más primeros puestos, después más segundos, etc.
 points: [25, 18, 15, 12, 10, 8, 6, 4, 2, 1]
+
+# Escuderías descalificadas (cuenta de GitHub: motivo). Todos sus autos quedan
+# fuera de concurso: se muestran, pero no suman ni le sacan puestos a nadie.
+descalificadas:
+  Joacocade: "en revisión. Su policy (McQueen-Kachow-v3 en adelante) coincide casi exactamente con una solución por programación dinámica, no con un DQN entrenado con recompensas."
+  athinasalimm: "en revisión. Su policy (sally-m3 en adelante) coincide casi exactamente con una solución por programación dinámica, no con un DQN entrenado con recompensas."
