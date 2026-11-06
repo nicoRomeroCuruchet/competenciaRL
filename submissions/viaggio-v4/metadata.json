@@ -1,0 +1,7 @@
+{
+  "team": "viaggio-v4",
+  "members": [
+    "Felipe Viaggio"
+  ],
+  "notes": "DQN entrenado con domain randomization de la fuerza del motor, reward shaping con potencial de energia cinetica, lr decreciente y mejor checkpoint por semillas propias (exp17_motor, semilla 24)"
+}
