@@ -12,6 +12,10 @@ Un auto TITULAR por escudería (cuenta de GitHub, ver escuderias.py): es el
 no le sacan puestos a nadie. El titular es el auto que más puntos sumaría
 corriendo contra los titulares de las otras escuderías (se itera hasta que la
 elección no cambia).
+
+Autos de REFERENCIA (results/<x>.json con "referencia": true, sin carpeta en
+submissions/): fuera de concurso. Se muestran con los puestos que habrían
+sacado contra los titulares, pero no suman ni le sacan puestos a nadie.
 """
 import json
 from collections import defaultdict
@@ -132,6 +136,8 @@ def main():
         print("Leaderboard regenerado con 0 equipo(s).")
         return
 
+    refs = [r for r in results if r.get("referencia")]
+    results = [r for r in results if not r.get("referencia")]
     owner = escuderias(ROOT, manual=CFG.get("escuderias"))
     for r in results:
         if r["team"] not in owner:
@@ -170,6 +176,22 @@ def main():
             rank, prev_key = i, k
         lines.append(f"| {medal.get(rank, rank)} | {t} | {owner[t]} | **{-k[0]}** | " + " | ".join(cells(pos[t])) + " |")
 
+    # Referencia: fuera de concurso, contra todos los titulares.
+    if refs:
+        lines += [
+            "",
+            "## 🚔 Auto de referencia (fuera de concurso)",
+            "",
+            "No compite: no suma ni le saca puestos a nadie. Las posiciones son las que habría "
+            "sacado contra los titulares.",
+            "",
+            "| Auto | Pts que habría sumado | " + " | ".join(short) + " |",
+            "|------|-----:|" + "|".join(":---:" for _ in CIRCUITS) + "|",
+        ]
+        for r in refs:
+            hp = positions_vs(r, titulares)
+            lines.append(f"| {r['team']} | {-champ_key(hp, n)[0]} | " + " | ".join(cells(hp)) + " |")
+
     # Reserva: qué haría cada auto si fuera el titular de su escudería.
     if reservas:
         hyp = {r["team"]: positions_vs(r, [t for o, t in tit.items() if o != owner[r["team"]]])
@@ -195,8 +217,9 @@ def main():
         if not rows:
             continue
         leader = rows[0][1]["circuits"][cid]["mean"]
-        all_rows = [(p, r) for p, r in rows] + [(None, r) for r in reservas if cid in r["circuits"]]
-        all_rows.sort(key=lambda pr: (-pr[1]["circuits"][cid][METRIC], pr[0] is None))
+        all_rows = ([(p, r) for p, r in rows] + [(None, r) for r in reservas if cid in r["circuits"]]
+                    + [("REF", r) for r in refs if cid in r["circuits"]])
+        all_rows.sort(key=lambda pr: (-pr[1]["circuits"][cid][METRIC], not isinstance(pr[0], int)))
         lines += [
             "",
             f"## {c['name']}",
@@ -211,7 +234,8 @@ def main():
             d = leader - m["mean"]
             gap = "—" if p == 1 else f"{'+' if d >= 0 else '−'}{abs(d):.3f}"
             lines.append(
-                f"| {p if p else 'R'} | {r['team']} | {owner[r['team']]} | {points_for(p) if p else '—'} | "
+                f"| {p if p else 'R'} | {r['team']} | {owner.get(r['team'], 'fuera de concurso')} | "
+                f"{points_for(p) if isinstance(p, int) else '—'} | "
                 f"{m['mean']:.3f} | {m['iqm']:.3f} | {100 * m['fail_rate']:.1f}% | {m['min']:.1f} | "
                 f"{m['max']:.1f} | {r['n_episodes']} | {gap} |"
             )

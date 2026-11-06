@@ -4,21 +4,19 @@
   <img src="gifs/mountain_car.gif" alt="Agente DQN escalando la montaña en MountainCar-v0" width="490">
 </p>
 
-## 📢 Cambio de reglamento: campeonato de 5 circuitos
+## 🏁 Día D: 7 Grandes Premios, una hora
 
-La pista estándar quedó resuelta: los primeros puestos terminan a menos de 0,05 pasos
-entre sí. Por eso, desde ahora la competencia es un **campeonato de 5 Grandes Premios**:
+Llegó la ronda final. Las pistas cambiaron: hay **7 circuitos**, varios nuevos y otros
+con rangos más amplios, y **seeds nuevas que nadie vio**.
 
-- La **misma policy** corre en los 5 circuitos (no se elige una por circuito).
-- En cada circuito se reparten puntos estilo F1, y gana quien sume más.
-- Las seeds ocultas se **rotan** durante la competencia.
-- Se pueden tener **varios autos** (carpetas) por escudería, pero **solo suma uno**: el
-  titular, que es su auto con más puntos. Los demás quedan de reserva y no le sacan
-  puestos a nadie.
+- Tienen **una hora** para subir autos. Al final de la hora se cortan los PRs: cuenta el
+  último push de cada PR **antes del corte**.
+- La **misma policy** corre en los 7 circuitos. En cada uno se reparten puntos estilo F1
+  y gana quien sume más.
+- Sigue valiendo **un auto titular por escudería**: suma el mejor; el resto queda de reserva.
 - No hace falta re-exportar nada: el contrato del `policy.onnx` no cambia.
 
-👉 **El nuevo reglamento está en [El campeonato: 5 circuitos](#-el-campeonato-5-circuitos).
-Cierre: viernes 6/11.**
+👉 **Las pistas nuevas están en [El campeonato: 7 circuitos](#-el-campeonato-7-circuitos).**
 
 > **Damas y caballeros, arranca la temporada.** Esto no es la Fórmula 1, pero el
 > espíritu es el mismo: cada escudería —su equipo— lleva su propio monoplaza a la
@@ -41,7 +39,7 @@ competencia corre la ronda final sobre seeds que nadie vio.
 |---|---|
 | Apertura de submissions | Abierta |
 | Última submission (cierre) | **Viernes 6/11** — después de esta fecha no se mergean más PRs |
-| Ronda final (día D) | _a confirmar_ |
+| Ronda final (día D) | **Viernes 6/11**: una hora con 7 circuitos nuevos y seeds nuevas |
 
 ## Regla de oro
 
@@ -85,20 +83,22 @@ Tu red Q tiene que exportarse exactamente así:
 En `submissions/_ejemplo/export_example.py` tenés cómo exportar desde PyTorch
 (ese archivo es solo guía local; **no** lo suban al repo).
 
-## 🏁 El campeonato: 5 circuitos
+## 🏁 El campeonato: 7 circuitos
 
 La pista estándar ya está resuelta: los de arriba están todos en el óptimo, a
-centésimas de paso entre sí. Así que esto pasa a ser un **campeonato**: la **misma
-policy** corre en 5 circuitos, que son variantes de MountainCar, y en cada uno se
-reparten puntos como en la F1.
+centésimas de paso entre sí. Así que esto es un **campeonato**: la **misma policy**
+corre en 7 circuitos, que son variantes de MountainCar, y en cada uno se reparten
+puntos como en la F1.
 
 | Circuito | Qué cambia |
 |---|---|
 | **GP Estándar** | Nada: `MountainCar-v0` tal cual. |
 | **GP Largada libre** | Largan desde cualquier punto de la pista (posición entre -1.2 y 0.4) y con velocidad inicial (entre -0.05 y 0.05). |
-| **GP Lluvia** | Los sensores tienen ruido gaussiano: σ entre 0.01 y 0.03 en la posición y entre 0.001 y 0.003 en la velocidad. |
-| **GP Motor débil** | El motor rinde entre un 8% y un 12% menos (`force` entre 0.00088 y 0.00092, en vez de 0.001). |
-| **GP Otra pista** | La montaña cambia de forma: `cos(f·x)` con `f` entre 2.6 y 2.8 (en vez de 3). |
+| **GP Largada extrema** 🆕 | Largan desde cualquier punto, hasta pegados a la meta (posición entre -1.2 y 0.5), y con hasta la velocidad máxima para cualquier lado (entre -0.07 y 0.07). |
+| **GP Lluvia fuerte** 🆕 | El doble de ruido en los sensores: σ entre 0.03 y 0.06 en la posición y entre 0.003 y 0.006 en la velocidad. |
+| **GP Motor débil XL** 🆕 | El motor rinde entre un 5% y un 15% menos (`force` entre 0.00085 y 0.00095, en vez de 0.001). |
+| **GP Otra pista XL** 🆕 | La montaña cambia de forma: `cos(f·x)` con `f` entre 2.5 y 2.9 (en vez de 3). |
+| **GP Pista empinada** 🆕 | Más gravedad: entre un 4% y un 12% más (`gravity` entre 0.0026 y 0.0028, en vez de 0.0025). |
 
 - Los valores exactos se sortean **en cada episodio** dentro de esos rangos. Su red
   ve solo `[posición, velocidad]`: no sabe en qué circuito está ni qué valores le
@@ -162,7 +162,7 @@ pip install torch          # solo para exportar; el evaluador no lo usa
    ```bash
    python harness/validate_submission.py --onnx ruta/a/policy.onnx
    ```
-3. **Evaluá** con las seeds públicas (`seeds/public_seeds.txt`), en los 5 circuitos:
+3. **Evaluá** con las seeds públicas (`seeds/public_seeds.txt`), en los 7 circuitos:
    ```bash
    python harness/evaluate.py --onnx ruta/a/policy.onnx --team mi-equipo --out /tmp/result.json
    ```
