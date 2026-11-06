@@ -1,0 +1,5 @@
+{
+  "team": "Mate-marcha-atrás",
+  "members": ["Valentino Nallib Fadel"],
+  "notes": "DQN (Double + n-step + PER, ensamble) + correcciones gaussianas locales sobre los Q-values, encontradas por búsqueda local sobre el retorno de episodios completos; elegido contra el campo evaluado en los circuitos nuevos"
+}
