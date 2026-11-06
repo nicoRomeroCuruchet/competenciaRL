@@ -1,0 +1,5 @@
+{
+  "team": "tdm-v1",
+  "members": ["Tiziano Demarco"],
+  "notes": "Double DQN entrenado por interaccion con domain randomization. Red 64-64 ReLU, n-step 3 y normalizacion incluida en ONNX."
+}
