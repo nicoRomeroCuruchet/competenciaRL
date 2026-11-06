@@ -1,0 +1,1 @@
+{"team": "el-auto-fantástico", "members": ["Valentino Nallib Fadel"], "notes": "Ensamble de 2 DQN (Double + n-step + PER) + correcciones gaussianas locales sobre los Q-values, encontradas por búsqueda local sobre el retorno de episodios completos en los 5 circuitos (objetivo ponderado por circuito)"}
