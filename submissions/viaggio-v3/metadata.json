@@ -1,0 +1,7 @@
+{
+  "team": "viaggio-v3",
+  "members": [
+    "Felipe Viaggio"
+  ],
+  "notes": "DQN entrenado con domain randomization de varias variantes del entorno (largada, ruido de sensores, fuerza del motor, forma de la pista), reward shaping con potencial de energia cinetica y mejor checkpoint por semillas propias (exp15_pesos, semilla 24)"
+}
