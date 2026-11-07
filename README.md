@@ -35,20 +35,24 @@ competencia corre la ronda final sobre seeds que nadie vio.
 
 ## 🚫 Descalificaciones (en revisión)
 
-Las escuderías **Joacocade** (McQueen-Kachow) y **athinasalimm** (sally-m) quedan
-**descalificadas preventivamente** hasta que revisemos su código de entrenamiento.
+La escudería **Joacocade** (McQueen-Kachow) queda **descalificada preventivamente** hasta
+que revisemos su código de entrenamiento.
 
-Sus policies coinciden casi exactamente con una solución por **programación dinámica**.
-En 300 episodios de prueba, en los estados donde hay una acción claramente mejor, se apartan
-de la acción óptima menos de 20 veces; los mejores DQN del resto, entre 100 y 1.000 veces.
-Además, sus redes no son redes Q: tienen una cabeza que predice los pasos exactos que faltan
+Su policy coincide casi exactamente con una solución por **programación dinámica**.
+En 300 episodios de prueba, en los estados donde hay una acción claramente mejor, se aparta
+de la acción óptima menos de 10 veces; los mejores DQN del resto, entre 100 y 1.000 veces.
+Además, su red no es una red Q: tiene una cabeza que predice los pasos exactos que faltan
 para llegar y parches puestos justo donde la red se apartaba de la solución óptima.
 La competencia es de **DQN**: el auto tiene que aprender de las recompensas del entorno,
 no copiar una solución calculada con el modelo.
 
 Sus autos siguen apareciendo en el [leaderboard](LEADERBOARD.md), fuera de concurso: no
 suman ni le sacan puestos a nadie. Si el código muestra que es un DQN entrenado con
-recompensas, se reincorporan con todos sus puntos.
+recompensas, se reincorpora con todos sus puntos.
+
+**athinasalimm (sally-m) fue reincorporada** después de revisar su código: entrenó sus
+propios DQN y los refinó con correcciones locales aprendidas de sus propios retornos
+(probando las tres acciones y siguiendo con su política). No usó ninguna solución externa.
 
 ## Fechas
 
